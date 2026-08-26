@@ -1,30 +1,92 @@
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>Calendario - Portal del Cliente</title>
+
+  <link
+    rel="stylesheet"
+    href="../../css/estilos.css"
+  >
+
 </head>
+
 
 <body>
 
-  <header>
 
-    <div>
-      <h1>Calendario</h1>
-      <p id="nombreUsuario">Cargando...</p>
+  <!-- =====================================================
+       CABECERA
+       ===================================================== -->
+
+  <header class="portal-header">
+
+    <div class="portal-header-left">
+
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          gap: 14px;
+        "
+      >
+
+        <div
+          style="
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #eef2ff;
+            border-radius: 12px;
+            font-size: 24px;
+          "
+        >
+          📅
+        </div>
+
+        <div>
+
+          <h1>
+            Calendario
+          </h1>
+
+          <p id="nombreUsuario">
+            Cargando...
+          </p>
+
+        </div>
+
+      </div>
+
     </div>
 
-    <div>
 
-      <a href="../../index.html">
+    <div class="portal-header-right">
+
+      <a
+        href="../../index.html"
+        class="btn btn-secondary"
+        style="
+          text-decoration: none;
+        "
+      >
         ← Volver al portal
       </a>
 
       <button
         id="cerrarSesion"
+        class="btn btn-danger"
         type="button"
       >
         Cerrar sesión
@@ -35,28 +97,116 @@
   </header>
 
 
-  <main>
 
-    <section>
+  <!-- =====================================================
+       CONTENIDO PRINCIPAL
+       ===================================================== -->
 
-      <h2>Mis eventos</h2>
+  <main class="portal-container">
 
-      <button
-        id="recargarEventos"
-        type="button"
+
+    <!-- ===================================================
+         CABECERA DEL MÓDULO
+         =================================================== -->
+
+    <section class="welcome-section">
+
+      <h2>
+        Mis eventos
+      </h2>
+
+      <p>
+        Consulta tus citas y próximos eventos de la asesoría.
+      </p>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         CALENDARIO / LISTADO
+         =================================================== -->
+
+    <section class="dashboard-section">
+
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 15px;
+          flex-wrap: wrap;
+          margin-bottom: 25px;
+        "
       >
-        Recargar calendario
-      </button>
 
-      <p id="eventosMessage"></p>
+        <div>
 
-      <div id="eventosContainer">
+          <h2
+            style="
+              margin: 0 0 5px 0;
+            "
+          >
+            Próximos eventos
+          </h2>
+
+          <p
+            style="
+              margin: 0;
+              color: #6b7280;
+              font-size: 14px;
+            "
+          >
+            Aquí podrás consultar las citas y eventos asociados a tu cuenta.
+          </p>
+
+        </div>
+
+
+        <button
+          id="recargarEventos"
+          class="btn btn-primary"
+          type="button"
+        >
+          ↻ Recargar calendario
+        </button>
+
+      </div>
+
+
+      <p
+        id="eventosMessage"
+        class="message"
+      ></p>
+
+
+      <div
+        id="eventosContainer"
+        style="
+          display: grid;
+          gap: 18px;
+        "
+      >
         Cargando eventos...
       </div>
 
     </section>
 
+
   </main>
+
+
+
+  <!-- =====================================================
+       PIE
+       ===================================================== -->
+
+  <footer class="portal-footer">
+
+    Portal del Cliente · Kit Gestión Asesoría
+
+  </footer>
+
 
 
   <script>
@@ -75,6 +225,7 @@
 
     const token =
       localStorage.getItem("token");
+
 
     const usuarioGuardado =
       localStorage.getItem("usuario");
@@ -118,6 +269,7 @@
     }
 
 
+
     // =====================================================
     // CERRAR SESIÓN
     // =====================================================
@@ -133,8 +285,10 @@
 
           window.location.href =
             "../../login.html";
+
         }
       );
+
 
 
     // =====================================================
@@ -155,8 +309,21 @@
         );
 
 
-      container.innerHTML =
-        "Cargando eventos...";
+      container.innerHTML = `
+        <div
+          style="
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            color: #6b7280;
+          "
+        >
+          Cargando eventos...
+        </div>
+      `;
+
 
       message.textContent = "";
 
@@ -201,8 +368,46 @@
           datos.eventos.length === 0
         ) {
 
-          container.innerHTML =
-            "<p>No tienes eventos en el calendario.</p>";
+          container.innerHTML = `
+            <div
+              style="
+                background: #ffffff;
+                border: 1px solid #e5e7eb;
+                border-radius: 12px;
+                padding: 45px 30px;
+                text-align: center;
+              "
+            >
+
+              <div
+                style="
+                  font-size: 42px;
+                  margin-bottom: 15px;
+                "
+              >
+                📅
+              </div>
+
+              <h3
+                style="
+                  margin: 0 0 8px 0;
+                  color: #111827;
+                "
+              >
+                No tienes eventos
+              </h3>
+
+              <p
+                style="
+                  margin: 0;
+                  color: #6b7280;
+                "
+              >
+                No hay eventos programados en este momento.
+              </p>
+
+            </div>
+          `;
 
           return;
         }
@@ -220,6 +425,35 @@
               );
 
 
+            article.style.cssText = `
+              background: #ffffff;
+              border: 1px solid #e5e7eb;
+              border-radius: 12px;
+              padding: 24px;
+              box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+            `;
+
+
+            // =================================================
+            // CABECERA DEL EVENTO
+            // =================================================
+
+            const cabecera =
+              document.createElement(
+                "div"
+              );
+
+
+            cabecera.style.cssText = `
+              display: flex;
+              justify-content: space-between;
+              align-items: flex-start;
+              gap: 15px;
+              flex-wrap: wrap;
+              margin-bottom: 18px;
+            `;
+
+
             // =================================================
             // TÍTULO
             // =================================================
@@ -234,36 +468,94 @@
               evento.titulo;
 
 
+            titulo.style.cssText = `
+              margin: 0;
+              color: #111827;
+              font-size: 19px;
+            `;
+
+
             // =================================================
             // TIPO
             // =================================================
 
             const tipo =
               document.createElement(
-                "p"
+                "span"
               );
 
 
             tipo.textContent =
-              `Tipo: ${
-                evento.tipo || "-"
-              }`;
+              evento.tipo || "-";
+
+
+            tipo.style.cssText = `
+              display: inline-flex;
+              align-items: center;
+              padding: 6px 10px;
+              border-radius: 999px;
+              background: #eef2ff;
+              color: #4338ca;
+              font-size: 13px;
+              font-weight: 600;
+              white-space: nowrap;
+            `;
+
+
+            cabecera.appendChild(
+              titulo
+            );
+
+
+            cabecera.appendChild(
+              tipo
+            );
+
+
+            article.appendChild(
+              cabecera
+            );
+
 
 
             // =================================================
-            // FECHA
+            // INFORMACIÓN DE FECHA
             // =================================================
+
+            const fechas =
+              document.createElement(
+                "div"
+              );
+
+
+            fechas.style.cssText = `
+              display: flex;
+              flex-direction: column;
+              gap: 8px;
+              padding: 16px;
+              background: #f9fafb;
+              border-radius: 10px;
+              margin-bottom: 20px;
+            `;
+
 
             const fecha =
               document.createElement(
-                "p"
+                "div"
               );
+
+
+            fecha.style.cssText = `
+              color: #374151;
+              font-size: 14px;
+              font-weight: 600;
+            `;
 
 
             if (evento.todoElDia) {
 
               fecha.textContent =
-                `Fecha: ${
+                `📅 Fecha: ${
                   formatearFecha(
                     evento.fechaInicio
                   )
@@ -272,7 +564,7 @@
             } else {
 
               fecha.textContent =
-                `Inicio: ${
+                `📅 Inicio: ${
                   formatearFechaHora(
                     evento.fechaInicio
                   )
@@ -281,14 +573,25 @@
             }
 
 
+            fechas.appendChild(
+              fecha
+            );
+
+
             // =================================================
             // FECHA FIN
             // =================================================
 
             const fechaFin =
               document.createElement(
-                "p"
+                "div"
               );
+
+
+            fechaFin.style.cssText = `
+              color: #6b7280;
+              font-size: 14px;
+            `;
 
 
             if (!evento.todoElDia) {
@@ -302,8 +605,21 @@
 
             } else {
 
-              fechaFin.textContent = "";
+              fechaFin.textContent =
+                "";
+
             }
+
+
+            fechas.appendChild(
+              fechaFin
+            );
+
+
+            article.appendChild(
+              fechas
+            );
+
 
 
             // =================================================
@@ -312,13 +628,48 @@
 
             const descripcion =
               document.createElement(
-                "p"
+                "div"
               );
+
+
+            descripcion.style.cssText = `
+              color: #374151;
+              line-height: 1.6;
+              margin-bottom: 20px;
+              white-space: pre-wrap;
+            `;
 
 
             descripcion.textContent =
               evento.descripcion ||
               "Sin descripción";
+
+
+            article.appendChild(
+              descripcion
+            );
+
+
+
+            // =================================================
+            // DETALLES
+            // =================================================
+
+            const detalles =
+              document.createElement(
+                "div"
+              );
+
+
+            detalles.style.cssText = `
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+              gap: 12px;
+              padding: 16px;
+              background: #f9fafb;
+              border-radius: 10px;
+              margin-bottom: 20px;
+            `;
 
 
             // =================================================
@@ -327,14 +678,31 @@
 
             const ubicacion =
               document.createElement(
-                "p"
+                "div"
               );
 
 
-            ubicacion.textContent =
-              `Ubicación: ${
-                evento.ubicacion || "-"
-              }`;
+            ubicacion.innerHTML = `
+              <div
+                style="
+                  font-size: 12px;
+                  color: #6b7280;
+                  margin-bottom: 3px;
+                "
+              >
+                Ubicación
+              </div>
+
+              <div
+                style="
+                  font-size: 14px;
+                  font-weight: 600;
+                  color: #374151;
+                "
+              >
+                ${evento.ubicacion || "-"}
+              </div>
+            `;
 
 
             // =================================================
@@ -343,14 +711,31 @@
 
             const estado =
               document.createElement(
-                "p"
+                "div"
               );
 
 
-            estado.textContent =
-              `Estado: ${
-                evento.estado || "-"
-              }`;
+            estado.innerHTML = `
+              <div
+                style="
+                  font-size: 12px;
+                  color: #6b7280;
+                  margin-bottom: 3px;
+                "
+              >
+                Estado
+              </div>
+
+              <div
+                style="
+                  font-size: 14px;
+                  font-weight: 600;
+                  color: #374151;
+                "
+              >
+                ${evento.estado || "-"}
+              </div>
+            `;
 
 
             // =================================================
@@ -359,15 +744,31 @@
 
             const empresa =
               document.createElement(
-                "p"
+                "div"
               );
 
 
-            empresa.textContent =
-              `Empresa: ${
-                evento.empresa?.nombre ||
-                "-"
-              }`;
+            empresa.innerHTML = `
+              <div
+                style="
+                  font-size: 12px;
+                  color: #6b7280;
+                  margin-bottom: 3px;
+                "
+              >
+                Empresa
+              </div>
+
+              <div
+                style="
+                  font-size: 14px;
+                  font-weight: 600;
+                  color: #374151;
+                "
+              >
+                ${evento.empresa?.nombre || "-"}
+              </div>
+            `;
 
 
             // =================================================
@@ -376,19 +777,61 @@
 
             const oficina =
               document.createElement(
-                "p"
+                "div"
               );
 
 
-            oficina.textContent =
-              `Oficina: ${
-                evento.oficina?.nombre ||
-                "-"
-              }`;
+            oficina.innerHTML = `
+              <div
+                style="
+                  font-size: 12px;
+                  color: #6b7280;
+                  margin-bottom: 3px;
+                "
+              >
+                Oficina
+              </div>
+
+              <div
+                style="
+                  font-size: 14px;
+                  font-weight: 600;
+                  color: #374151;
+                "
+              >
+                ${evento.oficina?.nombre || "-"}
+              </div>
+            `;
+
+
+            detalles.appendChild(
+              ubicacion
+            );
+
+
+            detalles.appendChild(
+              estado
+            );
+
+
+            detalles.appendChild(
+              empresa
+            );
+
+
+            detalles.appendChild(
+              oficina
+            );
+
+
+            article.appendChild(
+              detalles
+            );
+
 
 
             // =================================================
-            // CREACIÓN
+            // CREADO POR
             // =================================================
 
             const creado =
@@ -397,60 +840,23 @@
               );
 
 
-            creado.textContent =
-              `Creado por: ${
-                evento.creadoPorUsuario?.nombre ||
-                "-"
-              }`;
+            creado.style.cssText = `
+              margin: 0;
+              color: #6b7280;
+              font-size: 13px;
+            `;
 
 
-            // =================================================
-            // CONSTRUIR EVENTO
-            // =================================================
-
-            article.appendChild(
-              titulo
-            );
-
-
-            article.appendChild(
-              tipo
-            );
-
-
-            article.appendChild(
-              fecha
-            );
-
-
-            article.appendChild(
-              fechaFin
-            );
-
-
-            article.appendChild(
-              descripcion
-            );
-
-
-            article.appendChild(
-              ubicacion
-            );
-
-
-            article.appendChild(
-              estado
-            );
-
-
-            article.appendChild(
-              empresa
-            );
-
-
-            article.appendChild(
-              oficina
-            );
+            creado.innerHTML = `
+              Creado por:
+              <strong
+                style="
+                  color: #374151;
+                "
+              >
+                ${evento.creadoPorUsuario?.nombre || "-"}
+              </strong>
+            `;
 
 
             article.appendChild(
@@ -461,6 +867,7 @@
             container.appendChild(
               article
             );
+
           }
         );
 
@@ -477,8 +884,11 @@
 
         message.textContent =
           "No se ha podido conectar con el servidor.";
+
       }
+
     }
+
 
 
     // =====================================================
@@ -493,6 +903,7 @@
         "click",
         cargarEventos
       );
+
 
 
     // =====================================================
@@ -525,7 +936,9 @@
       return fechaObjeto.toLocaleDateString(
         "es-ES"
       );
+
     }
+
 
 
     // =====================================================
@@ -562,7 +975,9 @@
           timeStyle: "short"
         }
       );
+
     }
+
 
 
     // =====================================================
@@ -573,6 +988,7 @@
 
   </script>
 
-</body>
-</html>
 
+</body>
+
+</html>
