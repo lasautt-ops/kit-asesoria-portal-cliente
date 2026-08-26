@@ -1,30 +1,92 @@
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>Avisos - Portal del Cliente</title>
+
+  <link
+    rel="stylesheet"
+    href="../../css/estilos.css"
+  >
+
 </head>
+
 
 <body>
 
-  <header>
 
-    <div>
-      <h1>Avisos</h1>
-      <p id="nombreUsuario">Cargando...</p>
+  <!-- =====================================================
+       CABECERA
+       ===================================================== -->
+
+  <header class="portal-header">
+
+    <div class="portal-header-left">
+
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          gap: 14px;
+        "
+      >
+
+        <div
+          style="
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #eef2ff;
+            border-radius: 12px;
+            font-size: 24px;
+          "
+        >
+          🔔
+        </div>
+
+        <div>
+
+          <h1>
+            Avisos
+          </h1>
+
+          <p id="nombreUsuario">
+            Cargando...
+          </p>
+
+        </div>
+
+      </div>
+
     </div>
 
-    <div>
 
-      <a href="../../index.html">
+    <div class="portal-header-right">
+
+      <a
+        href="../../index.html"
+        class="btn btn-secondary"
+        style="
+          text-decoration: none;
+        "
+      >
         ← Volver al portal
       </a>
 
       <button
         id="cerrarSesion"
+        class="btn btn-danger"
         type="button"
       >
         Cerrar sesión
@@ -35,29 +97,121 @@
   </header>
 
 
-  <main>
 
-    <section>
+  <!-- =====================================================
+       CONTENIDO PRINCIPAL
+       ===================================================== -->
 
-      <h2>Mis avisos</h2>
+  <main class="portal-container">
 
-      <button
-        id="recargarAvisos"
-        type="button"
+
+    <!-- ===================================================
+         CABECERA DEL MÓDULO
+         =================================================== -->
+
+    <section class="welcome-section">
+
+      <h2>
+        Mis avisos
+      </h2>
+
+      <p>
+        Consulta las comunicaciones y avisos de tu asesoría.
+      </p>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         LISTADO DE AVISOS
+         =================================================== -->
+
+    <section class="dashboard-section">
+
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 15px;
+          flex-wrap: wrap;
+          margin-bottom: 25px;
+        "
       >
-        Recargar avisos
-      </button>
 
-      <p id="listadoMessage"></p>
+        <div>
 
-      <div id="avisosContainer">
+          <h2
+            style="
+              margin: 0 0 5px 0;
+            "
+          >
+            Avisos recibidos
+          </h2>
+
+          <p
+            style="
+              margin: 0;
+              color: #6b7280;
+              font-size: 14px;
+            "
+          >
+            Aquí aparecerán las comunicaciones dirigidas a ti.
+          </p>
+
+        </div>
+
+
+        <button
+          id="recargarAvisos"
+          class="btn btn-primary"
+          type="button"
+        >
+          ↻ Recargar avisos
+        </button>
+
+      </div>
+
+
+      <p
+        id="listadoMessage"
+        class="message"
+      ></p>
+
+
+      <div
+        id="avisosContainer"
+        style="
+          display: grid;
+          gap: 18px;
+        "
+      >
         Cargando avisos...
       </div>
 
     </section>
 
+
   </main>
 
+
+
+  <!-- =====================================================
+       PIE
+       ===================================================== -->
+
+  <footer class="portal-footer">
+
+    Portal del Cliente · Kit Gestión Asesoría
+
+  </footer>
+
+
+
+  <!-- =====================================================
+       JAVASCRIPT
+       ===================================================== -->
 
   <script>
 
@@ -75,6 +229,7 @@
 
     const token =
       localStorage.getItem("token");
+
 
     const usuarioGuardado =
       localStorage.getItem("usuario");
@@ -118,6 +273,7 @@
     }
 
 
+
     // =====================================================
     // CERRAR SESIÓN
     // =====================================================
@@ -133,8 +289,10 @@
 
           window.location.href =
             "../../login.html";
+
         }
       );
+
 
 
     // =====================================================
@@ -155,8 +313,21 @@
         );
 
 
-      container.innerHTML =
-        "Cargando avisos...";
+      container.innerHTML = `
+        <div
+          style="
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            color: #6b7280;
+          "
+        >
+          Cargando avisos...
+        </div>
+      `;
+
 
       message.textContent = "";
 
@@ -201,8 +372,46 @@
           datos.avisos.length === 0
         ) {
 
-          container.innerHTML =
-            "<p>No tienes avisos disponibles.</p>";
+          container.innerHTML = `
+            <div
+              style="
+                background: #ffffff;
+                border: 1px solid #e5e7eb;
+                border-radius: 12px;
+                padding: 45px 30px;
+                text-align: center;
+              "
+            >
+
+              <div
+                style="
+                  font-size: 42px;
+                  margin-bottom: 15px;
+                "
+              >
+                🔔
+              </div>
+
+              <h3
+                style="
+                  margin: 0 0 8px 0;
+                  color: #111827;
+                "
+              >
+                No tienes avisos
+              </h3>
+
+              <p
+                style="
+                  margin: 0;
+                  color: #6b7280;
+                "
+              >
+                No hay comunicaciones disponibles en este momento.
+              </p>
+
+            </div>
+          `;
 
           return;
         }
@@ -220,20 +429,33 @@
               );
 
 
+            article.style.cssText = `
+              background: #ffffff;
+              border: 1px solid #e5e7eb;
+              border-radius: 12px;
+              padding: 24px;
+              box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+            `;
+
+
             // =================================================
-            // INDICADOR LEÍDO / NO LEÍDO
+            // CABECERA DEL AVISO
             // =================================================
 
-            const estadoLectura =
+            const cabecera =
               document.createElement(
-                "p"
+                "div"
               );
 
 
-            estadoLectura.textContent =
-              aviso.leido
-                ? "✓ Leído"
-                : "● No leído";
+            cabecera.style.cssText = `
+              display: flex;
+              justify-content: space-between;
+              align-items: flex-start;
+              gap: 15px;
+              flex-wrap: wrap;
+              margin-bottom: 18px;
+            `;
 
 
             // =================================================
@@ -250,36 +472,69 @@
               aviso.titulo;
 
 
+            titulo.style.cssText = `
+              margin: 0;
+              color: #111827;
+              font-size: 19px;
+            `;
+
+
             // =================================================
-            // TIPO
+            // INDICADOR LEÍDO / NO LEÍDO
             // =================================================
 
-            const tipo =
+            const estadoLectura =
               document.createElement(
-                "p"
+                "span"
               );
 
 
-            tipo.textContent =
-              `Tipo: ${
-                aviso.tipo || "-"
-              }`;
+            estadoLectura.textContent =
+              aviso.leido
+                ? "✓ Leído"
+                : "● No leído";
 
 
-            // =================================================
-            // PRIORIDAD
-            // =================================================
+            estadoLectura.style.cssText =
+              aviso.leido
+                ? `
+                  display: inline-flex;
+                  align-items: center;
+                  padding: 6px 10px;
+                  border-radius: 999px;
+                  background: #ecfdf5;
+                  color: #047857;
+                  font-size: 13px;
+                  font-weight: 600;
+                  white-space: nowrap;
+                `
+                : `
+                  display: inline-flex;
+                  align-items: center;
+                  padding: 6px 10px;
+                  border-radius: 999px;
+                  background: #fff7ed;
+                  color: #c2410c;
+                  font-size: 13px;
+                  font-weight: 600;
+                  white-space: nowrap;
+                `;
 
-            const prioridad =
-              document.createElement(
-                "p"
-              );
+
+            cabecera.appendChild(
+              titulo
+            );
 
 
-            prioridad.textContent =
-              `Prioridad: ${
-                aviso.prioridad || "-"
-              }`;
+            cabecera.appendChild(
+              estadoLectura
+            );
+
+
+            article.appendChild(
+              cabecera
+            );
+
 
 
             // =================================================
@@ -288,7 +543,7 @@
 
             const contenido =
               document.createElement(
-                "p"
+                "div"
               );
 
 
@@ -297,23 +552,141 @@
               "Sin contenido";
 
 
+            contenido.style.cssText = `
+              color: #374151;
+              line-height: 1.6;
+              white-space: pre-wrap;
+              margin-bottom: 22px;
+            `;
+
+
+            article.appendChild(
+              contenido
+            );
+
+
+
+            // =================================================
+            // INFORMACIÓN DEL AVISO
+            // =================================================
+
+            const informacion =
+              document.createElement(
+                "div"
+              );
+
+
+            informacion.style.cssText = `
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+              gap: 12px;
+              padding: 16px;
+              background: #f9fafb;
+              border-radius: 10px;
+              margin-bottom: 20px;
+            `;
+
+
+            // =================================================
+            // TIPO
+            // =================================================
+
+            const tipo =
+              document.createElement(
+                "div"
+              );
+
+
+            tipo.innerHTML = `
+              <div
+                style="
+                  font-size: 12px;
+                  color: #6b7280;
+                  margin-bottom: 3px;
+                "
+              >
+                Tipo
+              </div>
+
+              <div
+                style="
+                  font-size: 14px;
+                  font-weight: 600;
+                  color: #374151;
+                "
+              >
+                ${aviso.tipo || "-"}
+              </div>
+            `;
+
+
+            // =================================================
+            // PRIORIDAD
+            // =================================================
+
+            const prioridad =
+              document.createElement(
+                "div"
+              );
+
+
+            prioridad.innerHTML = `
+              <div
+                style="
+                  font-size: 12px;
+                  color: #6b7280;
+                  margin-bottom: 3px;
+                "
+              >
+                Prioridad
+              </div>
+
+              <div
+                style="
+                  font-size: 14px;
+                  font-weight: 600;
+                  color: #374151;
+                "
+              >
+                ${aviso.prioridad || "-"}
+              </div>
+            `;
+
+
             // =================================================
             // FECHA PUBLICACIÓN
             // =================================================
 
             const fechaPublicacion =
               document.createElement(
-                "p"
+                "div"
               );
 
 
-            fechaPublicacion.textContent =
-              `Publicado: ${
-                formatearFecha(
+            fechaPublicacion.innerHTML = `
+              <div
+                style="
+                  font-size: 12px;
+                  color: #6b7280;
+                  margin-bottom: 3px;
+                "
+              >
+                Publicado
+              </div>
+
+              <div
+                style="
+                  font-size: 14px;
+                  font-weight: 600;
+                  color: #374151;
+                "
+              >
+                ${formatearFecha(
                   aviso.fechaPublicacion ||
                   aviso.createdAt
-                )
-              }`;
+                )}
+              </div>
+            `;
 
 
             // =================================================
@@ -322,16 +695,59 @@
 
             const fechaCaducidad =
               document.createElement(
-                "p"
+                "div"
               );
 
 
-            fechaCaducidad.textContent =
-              `Caducidad: ${
-                formatearFecha(
+            fechaCaducidad.innerHTML = `
+              <div
+                style="
+                  font-size: 12px;
+                  color: #6b7280;
+                  margin-bottom: 3px;
+                "
+              >
+                Caducidad
+              </div>
+
+              <div
+                style="
+                  font-size: 14px;
+                  font-weight: 600;
+                  color: #374151;
+                "
+              >
+                ${formatearFecha(
                   aviso.fechaCaducidad
-                )
-              }`;
+                )}
+              </div>
+            `;
+
+
+            informacion.appendChild(
+              tipo
+            );
+
+
+            informacion.appendChild(
+              prioridad
+            );
+
+
+            informacion.appendChild(
+              fechaPublicacion
+            );
+
+
+            informacion.appendChild(
+              fechaCaducidad
+            );
+
+
+            article.appendChild(
+              informacion
+            );
+
 
 
             // =================================================
@@ -344,11 +760,36 @@
               );
 
 
-            creador.textContent =
-              `Publicado por: ${
-                aviso.creador?.nombre ||
-                "-"
-              }`;
+            creador.innerHTML = `
+              <span
+                style="
+                  color: #6b7280;
+                  font-size: 13px;
+                "
+              >
+                Publicado por:
+              </span>
+
+              <strong
+                style="
+                  color: #374151;
+                  font-size: 13px;
+                "
+              >
+                ${aviso.creador?.nombre || "-"}
+              </strong>
+            `;
+
+
+            creador.style.cssText = `
+              margin: 0 0 18px 0;
+            `;
+
+
+            article.appendChild(
+              creador
+            );
+
 
 
             // =================================================
@@ -365,10 +806,14 @@
               "button";
 
 
+            botonLeido.className =
+              "btn btn-primary";
+
+
             if (aviso.leido) {
 
               botonLeido.textContent =
-                "Aviso leído";
+                "✓ Aviso leído";
 
               botonLeido.disabled =
                 true;
@@ -391,50 +836,6 @@
             }
 
 
-            // =================================================
-            // CONSTRUIR AVISO
-            // =================================================
-
-            article.appendChild(
-              estadoLectura
-            );
-
-
-            article.appendChild(
-              titulo
-            );
-
-
-            article.appendChild(
-              contenido
-            );
-
-
-            article.appendChild(
-              tipo
-            );
-
-
-            article.appendChild(
-              prioridad
-            );
-
-
-            article.appendChild(
-              fechaPublicacion
-            );
-
-
-            article.appendChild(
-              fechaCaducidad
-            );
-
-
-            article.appendChild(
-              creador
-            );
-
-
             article.appendChild(
               botonLeido
             );
@@ -443,6 +844,7 @@
             container.appendChild(
               article
             );
+
           }
         );
 
@@ -459,8 +861,11 @@
 
         message.textContent =
           "No se ha podido conectar con el servidor.";
+
       }
+
     }
+
 
 
     // =====================================================
@@ -528,8 +933,22 @@
           "✓ Leído";
 
 
+        indicador.style.cssText = `
+          display: inline-flex;
+          align-items: center;
+          padding: 6px 10px;
+          border-radius: 999px;
+          background: #ecfdf5;
+          color: #047857;
+          font-size: 13px;
+          font-weight: 600;
+          white-space: nowrap;
+        `;
+
+
         boton.textContent =
-          "Aviso leído";
+          "✓ Aviso leído";
+
 
       } catch (error) {
 
@@ -550,8 +969,11 @@
 
         boton.textContent =
           "Marcar como leído";
+
       }
+
     }
+
 
 
     // =====================================================
@@ -566,6 +988,7 @@
         "click",
         cargarAvisos
       );
+
 
 
     // =====================================================
@@ -602,7 +1025,9 @@
           timeStyle: "short"
         }
       );
+
     }
+
 
 
     // =====================================================
@@ -613,6 +1038,8 @@
 
   </script>
 
+
 </body>
+
 </html>
 
