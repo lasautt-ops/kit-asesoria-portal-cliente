@@ -1,115 +1,391 @@
-
 <!DOCTYPE html>
+
 <html lang="es">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+
+>
 
   <title>Documentos - Portal del Cliente</title>
+
+  <link
+    rel="stylesheet"
+    href="../../css/estilos.css"
+  >
+
 </head>
 
 <body>
 
-  <header>
-    <div>
-      <h1>Documentos</h1>
-      <p id="nombreUsuario">Cargando...</p>
+  <main class="portal-container">
+
+```
+<!-- =================================================
+     CABECERA
+     ================================================= -->
+
+<section
+  class="welcome-section"
+  style="
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  "
+>
+
+  <div>
+
+    <div
+      style="
+        font-size: 42px;
+        margin-bottom: 10px;
+      "
+    >
+      📁
+    </div>
+
+    <h2>
+      Documentos
+    </h2>
+
+    <p id="nombreUsuario">
+      Cargando...
+    </p>
+
+  </div>
+
+
+  <div
+    style="
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    "
+  >
+
+    <a
+      href="../../index.html"
+      class="btn btn-secondary"
+    >
+      ← Volver al inicio
+    </a>
+
+
+    <button
+      id="cerrarSesion"
+      type="button"
+      class="btn btn-danger"
+    >
+      Cerrar sesión
+    </button>
+
+  </div>
+
+</section>
+
+
+
+<!-- =================================================
+     SUBIR DOCUMENTO
+     ================================================= -->
+
+<section
+  style="
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 25px;
+  "
+>
+
+  <div
+    style="
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 25px;
+    "
+  >
+
+    <div
+      style="
+        font-size: 28px;
+      "
+    >
+      ⬆️
     </div>
 
     <div>
-      <a href="../../index.html">Volver al inicio</a>
 
-      <button id="cerrarSesion" type="button">
-        Cerrar sesión
-      </button>
+      <h3
+        style="
+          margin: 0;
+          color: #111827;
+        "
+      >
+        Subir documento
+      </h3>
+
+      <p
+        style="
+          margin: 5px 0 0;
+          color: #6b7280;
+          font-size: 14px;
+        "
+      >
+        Envía un documento a tu asesoría.
+      </p>
+
     </div>
-  </header>
+
+  </div>
 
 
-  <main>
-
-    <!-- =====================================================
-         SUBIR DOCUMENTO
-         ===================================================== -->
-
-    <section>
-      <h2>Subir documento</h2>
-
-      <form id="documentoForm">
-
-        <div>
-          <label for="nombre">
-            Nombre del documento
-          </label>
-
-          <input
-            type="text"
-            id="nombre"
-            name="nombre"
-            required
-          >
-        </div>
+  <form id="documentoForm">
 
 
-        <div>
-          <label for="tipo">
-            Tipo de documento
-          </label>
+    <!-- NOMBRE -->
 
-          <input
-            type="text"
-            id="tipo"
-            name="tipo"
-            placeholder="Ej.: Factura, contrato, certificado..."
-            required
-          >
-        </div>
+    <div
+      style="
+        margin-bottom: 20px;
+      "
+    >
 
-
-        <div>
-          <label for="archivo">
-            Archivo
-          </label>
-
-          <input
-            type="file"
-            id="archivo"
-            name="archivo"
-            required
-          >
-        </div>
+      <label
+        for="nombre"
+        style="
+          display: block;
+          margin-bottom: 7px;
+          font-size: 14px;
+          font-weight: 600;
+          color: #374151;
+        "
+      >
+        Nombre del documento
+      </label>
 
 
-        <button type="submit">
-          Subir documento
-        </button>
+      <input
+        type="text"
+        id="nombre"
+        name="nombre"
+        required
+        placeholder="Ej.: Factura agosto 2026"
+        style="
+          width: 100%;
+          padding: 12px;
+          border: 1px solid #d1d5db;
+          border-radius: 8px;
+          font-size: 15px;
+          outline: none;
+          box-sizing: border-box;
+        "
+      >
 
-        <p id="subidaMessage"></p>
-
-      </form>
-    </section>
+    </div>
 
 
-    <!-- =====================================================
-         LISTADO
-         ===================================================== -->
 
-    <section>
-      <h2>Mis documentos</h2>
+    <!-- TIPO -->
 
-      <button id="recargarDocumentos" type="button">
-        Recargar documentos
-      </button>
+    <div
+      style="
+        margin-bottom: 20px;
+      "
+    >
 
-      <p id="listadoMessage"></p>
+      <label
+        for="tipo"
+        style="
+          display: block;
+          margin-bottom: 7px;
+          font-size: 14px;
+          font-weight: 600;
+          color: #374151;
+        "
+      >
+        Tipo de documento
+      </label>
 
-      <div id="documentosContainer">
-        Cargando documentos...
-      </div>
-    </section>
+
+      <input
+        type="text"
+        id="tipo"
+        name="tipo"
+        placeholder="Ej.: Factura, contrato, certificado..."
+        required
+        style="
+          width: 100%;
+          padding: 12px;
+          border: 1px solid #d1d5db;
+          border-radius: 8px;
+          font-size: 15px;
+          outline: none;
+          box-sizing: border-box;
+        "
+      >
+
+    </div>
+
+
+
+    <!-- ARCHIVO -->
+
+    <div
+      style="
+        margin-bottom: 25px;
+      "
+    >
+
+      <label
+        for="archivo"
+        style="
+          display: block;
+          margin-bottom: 7px;
+          font-size: 14px;
+          font-weight: 600;
+          color: #374151;
+        "
+      >
+        Archivo
+      </label>
+
+
+      <input
+        type="file"
+        id="archivo"
+        name="archivo"
+        required
+        style="
+          width: 100%;
+          padding: 10px;
+          border: 1px solid #d1d5db;
+          border-radius: 8px;
+          font-size: 14px;
+          background: #f9fafb;
+          box-sizing: border-box;
+        "
+      >
+
+    </div>
+
+
+
+    <button
+      type="submit"
+      class="btn btn-primary"
+      style="
+        padding: 12px 20px;
+      "
+    >
+      Subir documento
+    </button>
+
+
+    <p
+      id="subidaMessage"
+      class="message"
+    ></p>
+
+
+  </form>
+
+</section>
+
+
+
+<!-- =================================================
+     LISTADO DE DOCUMENTOS
+     ================================================= -->
+
+<section
+  style="
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 30px;
+  "
+>
+
+
+  <div
+    style="
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    "
+  >
+
+    <div>
+
+      <h3
+        style="
+          margin: 0;
+          color: #111827;
+        "
+      >
+        Mis documentos
+      </h3>
+
+      <p
+        style="
+          margin: 5px 0 0;
+          color: #6b7280;
+          font-size: 14px;
+        "
+      >
+        Consulta y descarga tus documentos.
+      </p>
+
+    </div>
+
+
+    <button
+      id="recargarDocumentos"
+      type="button"
+      class="btn btn-secondary"
+    >
+      ↻ Recargar
+    </button>
+
+  </div>
+
+
+  <p
+    id="listadoMessage"
+    class="message"
+  ></p>
+
+
+  <div
+    id="documentosContainer"
+    style="
+      display: grid;
+      gap: 15px;
+    "
+  >
+    Cargando documentos...
+  </div>
+
+
+</section>
+```
 
   </main>
-
 
   <script>
 
@@ -322,6 +598,14 @@
               );
 
 
+            article.style.cssText = `
+              background: #f9fafb;
+              border: 1px solid #e5e7eb;
+              border-radius: 10px;
+              padding: 20px;
+            `;
+
+
             const nombre =
               document.createElement(
                 "h3"
@@ -329,6 +613,11 @@
 
             nombre.textContent =
               documento.nombre;
+
+            nombre.style.cssText = `
+              margin: 0 0 12px;
+              color: #111827;
+            `;
 
 
             const archivo =
@@ -369,6 +658,24 @@
               )}`;
 
 
+            [
+              archivo,
+              tipo,
+              estado,
+              fecha
+            ].forEach(
+              (elemento) => {
+
+                elemento.style.cssText = `
+                  margin: 6px 0;
+                  color: #4b5563;
+                  font-size: 14px;
+                `;
+
+              }
+            );
+
+
             const descargar =
               document.createElement(
                 "button"
@@ -380,6 +687,14 @@
 
             descargar.textContent =
               "Descargar";
+
+            descargar.className =
+              "btn btn-primary";
+
+            descargar.style.cssText = `
+              margin-top: 12px;
+              padding: 10px 16px;
+            `;
 
 
             descargar.addEventListener(
@@ -745,5 +1060,5 @@
   </script>
 
 </body>
-</html>
 
+</html>
