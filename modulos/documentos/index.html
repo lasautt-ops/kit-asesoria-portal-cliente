@@ -6,109 +6,264 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Documentos - Portal del Cliente</title>
+
+  <link rel="stylesheet" href="../../css/styles.css">
 </head>
 
 <body>
 
-  <header>
-    <div>
-      <h1>Documentos</h1>
-      <p id="nombreUsuario">Cargando...</p>
+  <header class="portal-header">
+
+    <div class="portal-header-content">
+
+      <div class="portal-brand">
+
+        <div class="portal-brand-icon">
+          📁
+        </div>
+
+        <div>
+          <h1>Documentos</h1>
+          <p id="nombreUsuario">Cargando...</p>
+        </div>
+
+      </div>
+
+
+      <div class="portal-header-actions">
+
+        <a
+          href="../../index.html"
+          class="btn btn-secondary"
+        >
+          ← Volver al portal
+        </a>
+
+        <button
+          id="cerrarSesion"
+          type="button"
+          class="btn btn-outline"
+        >
+          Cerrar sesión
+        </button>
+
+      </div>
+
     </div>
 
-    <div>
-      <a href="../../index.html">
-  ← Volver al portal
-</a>
-
-      <button id="cerrarSesion" type="button">
-        Cerrar sesión
-      </button>
-    </div>
   </header>
 
 
-  <main>
+  <main class="portal-main">
+
+
+    <!-- =====================================================
+         CABECERA DEL MÓDULO
+         ===================================================== -->
+
+    <section class="module-intro">
+
+      <div>
+
+        <span class="module-label">
+          GESTIÓN DOCUMENTAL
+        </span>
+
+        <h2>
+          Mis documentos
+        </h2>
+
+        <p>
+          Consulta, descarga y envía documentos a tu asesoría
+          de forma sencilla y segura.
+        </p>
+
+      </div>
+
+    </section>
+
 
     <!-- =====================================================
          SUBIR DOCUMENTO
          ===================================================== -->
 
-    <section>
-      <h2>Subir documento</h2>
+    <section class="card upload-card">
 
-      <form id="documentoForm">
+      <div class="card-header">
 
         <div>
-          <label for="nombre">
-            Nombre del documento
-          </label>
 
-          <input
-            type="text"
-            id="nombre"
-            name="nombre"
-            required
-          >
+          <h2>
+            Subir documento
+          </h2>
+
+          <p>
+            Envía un nuevo documento a tu asesoría.
+          </p>
+
+        </div>
+
+        <div class="card-icon">
+          ↑
+        </div>
+
+      </div>
+
+
+      <form id="documentoForm" class="document-form">
+
+
+        <div class="form-row">
+
+
+          <div class="form-group">
+
+            <label for="nombre">
+              Nombre del documento
+            </label>
+
+            <input
+              type="text"
+              id="nombre"
+              name="nombre"
+              placeholder="Ej.: Factura agosto 2026"
+              required
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="tipo">
+              Tipo de documento
+            </label>
+
+            <input
+              type="text"
+              id="tipo"
+              name="tipo"
+              placeholder="Ej.: Factura, contrato, certificado..."
+              required
+            >
+
+          </div>
+
+
         </div>
 
 
-        <div>
-          <label for="tipo">
-            Tipo de documento
-          </label>
+        <div class="form-group">
 
-          <input
-            type="text"
-            id="tipo"
-            name="tipo"
-            placeholder="Ej.: Factura, contrato, certificado..."
-            required
-          >
-        </div>
-
-
-        <div>
           <label for="archivo">
             Archivo
           </label>
 
-          <input
-            type="file"
-            id="archivo"
-            name="archivo"
-            required
-          >
+          <div class="file-upload">
+
+            <input
+              type="file"
+              id="archivo"
+              name="archivo"
+              required
+            >
+
+            <label
+              for="archivo"
+              class="file-upload-label"
+            >
+              <span class="file-upload-icon">
+                📎
+              </span>
+
+              <span>
+                Seleccionar archivo
+              </span>
+
+              <small>
+                Elige el archivo que quieres enviar
+              </small>
+            </label>
+
+          </div>
+
         </div>
 
 
-        <button type="submit">
-          Subir documento
-        </button>
+        <div class="form-actions">
 
-        <p id="subidaMessage"></p>
+          <button
+            type="submit"
+            class="btn btn-primary"
+          >
+            Subir documento
+          </button>
+
+          <p
+            id="subidaMessage"
+            class="form-message"
+          ></p>
+
+        </div>
+
 
       </form>
+
     </section>
 
 
     <!-- =====================================================
-         LISTADO
+         LISTADO DE DOCUMENTOS
          ===================================================== -->
 
-    <section>
-      <h2>Mis documentos</h2>
+    <section class="card documents-card">
 
-      <button id="recargarDocumentos" type="button">
-        Recargar documentos
-      </button>
 
-      <p id="listadoMessage"></p>
+      <div class="card-header">
 
-      <div id="documentosContainer">
-        Cargando documentos...
+        <div>
+
+          <h2>
+            Mis documentos
+          </h2>
+
+          <p>
+            Documentos enviados y disponibles para ti.
+          </p>
+
+        </div>
+
+
+        <button
+          id="recargarDocumentos"
+          type="button"
+          class="btn btn-secondary"
+        >
+          ↻ Recargar
+        </button>
+
       </div>
+
+
+      <p
+        id="listadoMessage"
+        class="form-message"
+      ></p>
+
+
+      <div
+        id="documentosContainer"
+        class="documents-grid"
+      >
+        <div class="loading-state">
+          <span class="loading-spinner"></span>
+          <p>Cargando documentos...</p>
+        </div>
+      </div>
+
+
     </section>
+
 
   </main>
 
@@ -263,8 +418,12 @@
         );
 
 
-      container.innerHTML =
-        "Cargando documentos...";
+      container.innerHTML = `
+        <div class="loading-state">
+          <span class="loading-spinner"></span>
+          <p>Cargando documentos...</p>
+        </div>
+      `;
 
       message.textContent = "";
 
@@ -305,8 +464,23 @@
           datos.documentos.length === 0
         ) {
 
-          container.innerHTML =
-            "<p>No tienes documentos disponibles.</p>";
+          container.innerHTML = `
+            <div class="empty-state">
+
+              <div class="empty-state-icon">
+                📄
+              </div>
+
+              <h3>
+                No tienes documentos
+              </h3>
+
+              <p>
+                Cuando envíes un documento aparecerá aquí.
+              </p>
+
+            </div>
+          `;
 
           return;
         }
@@ -324,13 +498,51 @@
               );
 
 
-            const nombre =
+            article.className =
+              "document-card";
+
+
+            const header =
+              document.createElement(
+                "div"
+              );
+
+            header.className =
+              "document-card-header";
+
+
+            const icono =
+              document.createElement(
+                "div"
+              );
+
+            icono.className =
+              "document-icon";
+
+            icono.textContent =
+              "📄";
+
+
+            const titulo =
               document.createElement(
                 "h3"
               );
 
-            nombre.textContent =
+            titulo.textContent =
               documento.nombre;
+
+
+            header.appendChild(icono);
+            header.appendChild(titulo);
+
+
+            const informacion =
+              document.createElement(
+                "div"
+              );
+
+            informacion.className =
+              "document-info";
 
 
             const archivo =
@@ -338,8 +550,8 @@
                 "p"
               );
 
-            archivo.textContent =
-              `Archivo: ${documento.nombreArchivo}`;
+            archivo.innerHTML =
+              `<strong>Archivo:</strong> ${documento.nombreArchivo}`;
 
 
             const tipo =
@@ -347,17 +559,8 @@
                 "p"
               );
 
-            tipo.textContent =
-              `Tipo: ${documento.tipo}`;
-
-
-            const estado =
-              document.createElement(
-                "p"
-              );
-
-            estado.textContent =
-              `Estado: ${documento.estado}`;
+            tipo.innerHTML =
+              `<strong>Tipo:</strong> ${documento.tipo}`;
 
 
             const fecha =
@@ -365,10 +568,38 @@
                 "p"
               );
 
-            fecha.textContent =
-              `Fecha: ${formatearFecha(
+            fecha.innerHTML =
+              `<strong>Fecha:</strong> ${formatearFecha(
                 documento.createdAt
               )}`;
+
+
+            informacion.appendChild(archivo);
+            informacion.appendChild(tipo);
+            informacion.appendChild(fecha);
+
+
+            const footer =
+              document.createElement(
+                "div"
+              );
+
+            footer.className =
+              "document-card-footer";
+
+
+            const estado =
+              document.createElement(
+                "span"
+              );
+
+            estado.className =
+              `status-badge status-${String(
+                documento.estado
+              ).toLowerCase()}`;
+
+            estado.textContent =
+              documento.estado;
 
 
             const descargar =
@@ -380,8 +611,11 @@
             descargar.type =
               "button";
 
+            descargar.className =
+              "btn btn-primary btn-small";
+
             descargar.textContent =
-              "Descargar";
+              "↓ Descargar";
 
 
             descargar.addEventListener(
@@ -393,12 +627,13 @@
             );
 
 
-            article.appendChild(nombre);
-            article.appendChild(archivo);
-            article.appendChild(tipo);
-            article.appendChild(estado);
-            article.appendChild(fecha);
-            article.appendChild(descargar);
+            footer.appendChild(estado);
+            footer.appendChild(descargar);
+
+
+            article.appendChild(header);
+            article.appendChild(informacion);
+            article.appendChild(footer);
 
 
             container.appendChild(
@@ -748,4 +983,6 @@
 
 </body>
 </html>
+
+
 
