@@ -1,0 +1,353 @@
+
+/* =========================================================
+   ESTILOS GENERALES - PORTAL CLIENTE
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f4f6f8;
+  color: #1f2937;
+}
+
+
+/* =========================================================
+   CABECERA
+   ========================================================= */
+
+.portal-header {
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 18px 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+}
+
+.portal-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.portal-header-left h1 {
+  margin: 0;
+  font-size: 24px;
+  color: #111827;
+}
+
+.portal-header-left p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.portal-header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+
+/* =========================================================
+   CONTENEDOR PRINCIPAL
+   ========================================================= */
+
+.portal-container {
+  width: min(1200px, calc(100% - 40px));
+  margin: 40px auto;
+}
+
+
+/* =========================================================
+   BIENVENIDA
+   ========================================================= */
+
+.welcome-section {
+  margin-bottom: 30px;
+}
+
+.welcome-section h2 {
+  margin: 0 0 8px;
+  font-size: 28px;
+  color: #111827;
+}
+
+.welcome-section p {
+  margin: 0;
+  color: #6b7280;
+}
+
+
+/* =========================================================
+   GRID DE MÓDULOS
+   ========================================================= */
+
+.modules-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: 20px;
+}
+
+
+/* =========================================================
+   TARJETAS
+   ========================================================= */
+
+.module-card {
+  background: #ffffff;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+
+  padding: 25px;
+
+  text-decoration: none;
+  color: inherit;
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    border-color 0.15s ease;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  min-height: 190px;
+}
+
+.module-card:hover {
+  transform: translateY(-3px);
+
+  border-color: #cbd5e1;
+
+  box-shadow:
+    0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+.module-icon {
+  font-size: 36px;
+  margin-bottom: 18px;
+}
+
+.module-card h3 {
+  margin: 0 0 8px;
+
+  font-size: 20px;
+  color: #111827;
+}
+
+.module-card p {
+  margin: 0;
+
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   INDICADORES
+   ========================================================= */
+
+.dashboard-section {
+  margin-top: 35px;
+}
+
+.dashboard-section h2 {
+  margin: 0 0 18px;
+
+  font-size: 21px;
+  color: #111827;
+}
+
+.stats-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: 15px;
+}
+
+.stat-card {
+  background: #ffffff;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+
+  padding: 20px;
+}
+
+.stat-card-title {
+  color: #6b7280;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.stat-card-value {
+  color: #111827;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+
+/* =========================================================
+   BOTONES
+   ========================================================= */
+
+.btn {
+  border: 0;
+  border-radius: 8px;
+
+  padding: 10px 15px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  text-decoration: none;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background: #1d4ed8;
+}
+
+.btn-secondary {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.btn-secondary:hover {
+  background: #e5e7eb;
+}
+
+.btn-danger {
+  background: #dc2626;
+  color: #ffffff;
+}
+
+.btn-danger:hover {
+  background: #b91c1c;
+}
+
+
+/* =========================================================
+   MENSAJES
+   ========================================================= */
+
+.message {
+  margin-top: 15px;
+
+  color: #6b7280;
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   PIE
+   ========================================================= */
+
+.portal-footer {
+  width: min(1200px, calc(100% - 40px));
+
+  margin: 50px auto 25px;
+
+  text-align: center;
+
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  .modules-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .stats-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .portal-header {
+    padding: 15px 20px;
+
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .portal-header-right {
+    width: 100%;
+  }
+
+  .portal-header-right .btn {
+    flex: 1;
+  }
+
+  .portal-container {
+    width: min(100% - 30px, 1200px);
+
+    margin: 25px auto;
+  }
+
+  .welcome-section h2 {
+    font-size: 24px;
+  }
+
+  .modules-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
