@@ -1,0 +1,566 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Documentos - Portal del Cliente</title>
+</head>
+
+<body>
+
+  <header>
+    <div>
+      <h1>Documentos</h1>
+      <p id="nombreUsuario">Cargando...</p>
+    </div>
+
+    <div>
+      <a href="../../index.html">Volver al inicio</a>
+      <button id="cerrarSesion" type="button">
+        Cerrar sesión
+      </button>
+    </div>
+  </header>
+
+
+  <main>
+
+    <!-- =====================================================
+         SUBIR DOCUMENTO
+         ===================================================== -->
+
+    <section>
+      <h2>Subir documento</h2>
+
+      <form id="documentoForm">
+
+        <div>
+          <label for="nombre">
+            Nombre del documento
+          </label>
+
+          <input
+            type="text"
+            id="nombre"
+            name="nombre"
+            required
+          >
+        </div>
+
+
+        <div>
+          <label for="tipo">
+            Tipo de documento
+          </label>
+
+          <input
+            type="text"
+            id="tipo"
+            name="tipo"
+            placeholder="Ej.: Factura, contrato, certificado..."
+            required
+          >
+        </div>
+
+
+        <div>
+          <label for="archivo">
+            Archivo
+          </label>
+
+          <input
+            type="file"
+            id="archivo"
+            name="archivo"
+            required
+          >
+        </div>
+
+
+        <button type="submit">
+          Subir documento
+        </button>
+
+        <p id="subidaMessage"></p>
+
+      </form>
+    </section>
+
+
+    <!-- =====================================================
+         LISTADO DE DOCUMENTOS
+         ===================================================== -->
+
+    <section>
+      <h2>Mis documentos</h2>
+
+      <button id="recargarDocumentos" type="button">
+        Recargar documentos
+      </button>
+
+      <p id="listadoMessage"></p>
+
+      <div id="documentosContainer">
+        Cargando documentos...
+      </div>
+    </section>
+
+  </main>
+
+
+  <script>
+
+    // =====================================================
+    // CONFIGURACIÓN
+    // =====================================================
+
+    const API_URL =
+      "https://kit-asesoria-backend.vhtza8.easypanel.host";
+
+
+    // =====================================================
+    // COMPROBAR SESIÓN
+    // =====================================================
+
+    const token = localStorage.getItem("token");
+    const usuarioGuardado = localStorage.getItem("usuario");
+
+    if (!token || !usuarioGuardado) {
+      window.location.href = "../../login.html";
+    }
+
+
+    let usuario;
+
+    try {
+      usuario = JSON.parse(usuarioGuardado);
+
+      document.getElementById("nombreUsuario").textContent =
+        `Hola, ${usuario.nombre}`;
+
+    } catch (error) {
+
+      console.error(
+        "Error leyendo los datos del usuario:",
+        error
+      );
+
+      localStorage.removeItem("token");
+      localStorage.removeItem("usuario");
+
+      window.location.href = "../../login.html";
+    }
+
+
+    // =====================================================
+    // CERRAR SESIÓN
+    // =====================================================
+
+    document
+      .getElementById("cerrarSesion")
+      .addEventListener("click", () => {
+
+        localStorage.removeItem("token");
+        localStorage.removeItem("usuario");
+
+        window.location.href = "../../login.html";
+      });
+
+
+    // =====================================================
+    // CARGAR DOCUMENTOS
+    // =====================================================
+
+    async function cargarDocumentos() {
+
+      const container =
+        document.getElementById("documentosContainer");
+
+      const message =
+        document.getElementById("listadoMessage");
+
+      container.innerHTML =
+        "Cargando documentos...";
+
+      message.textContent = "";
+
+      try {
+
+        const respuesta = await fetch(
+          `${API_URL}/api/documentos`,
+          {
+            method: "GET",
+
+            headers: {
+              "Authorization": `Bearer ${token}`
+            }
+          }
+        );
+
+
+        const datos = await respuesta.json();
+
+
+        if (!respuesta.ok || !datos.ok) {
+
+          container.innerHTML = "";
+
+          message.textContent =
+            datos.message ||
+            "No se han podido cargar los documentos.";
+
+          return;
+        }
+
+
+        if (
+          !Array.isArray(datos.documentos) ||
+          datos.documentos.length === 0
+        ) {
+
+          container.innerHTML =
+            "<p>No tienes documentos disponibles.</p>";
+
+          return;
+        }
+
+
+        container.innerHTML = "";
+
+
+        datos.documentos.forEach((documento) => {
+
+          const article =
+            document.createElement("article");
+
+
+          const nombre =
+            document.createElement("h3");
+
+          nombre.textContent =
+            documento.nombre;
+
+
+          const archivo =
+            document.createElement("p");
+
+          archivo.textContent =
+            `Archivo: ${documento.nombreArchivo}`;
+
+
+          const tipo =
+            document.createElement("p");
+
+          tipo.textContent =
+            `Tipo: ${documento.tipo}`;
+
+
+          const estado =
+            document.createElement("p");
+
+          estado.textContent =
+            `Estado: ${documento.estado}`;
+
+
+          const fecha =
+            document.createElement("p");
+
+          fecha.textContent =
+            `Fecha: ${formatearFecha(documento.createdAt)}`;
+
+
+          const descargar =
+            document.createElement("button");
+
+          descargar.type = "button";
+          descargar.textContent =
+            "Descargar";
+
+
+          descargar.addEventListener(
+            "click",
+            () => descargarDocumento(documento.id)
+          );
+
+
+          article.appendChild(nombre);
+          article.appendChild(archivo);
+          article.appendChild(tipo);
+          article.appendChild(estado);
+          article.appendChild(fecha);
+          article.appendChild(descargar);
+
+
+          container.appendChild(article);
+        });
+
+      } catch (error) {
+
+        console.error(
+          "Error cargando documentos:",
+          error
+        );
+
+        container.innerHTML = "";
+
+        message.textContent =
+          "No se ha podido conectar con el servidor.";
+      }
+    }
+
+
+    // =====================================================
+    // DESCARGAR DOCUMENTO
+    // =====================================================
+
+    async function descargarDocumento(id) {
+
+      try {
+
+        const respuesta = await fetch(
+          `${API_URL}/api/documentos/${id}/descargar`,
+          {
+            method: "GET",
+
+            headers: {
+              "Authorization": `Bearer ${token}`
+            }
+          }
+        );
+
+
+        if (!respuesta.ok) {
+
+          let datos = {};
+
+          try {
+            datos = await respuesta.json();
+          } catch (error) {
+            // La respuesta puede no ser JSON.
+          }
+
+          alert(
+            datos.message ||
+            "No se ha podido descargar el documento."
+          );
+
+          return;
+        }
+
+
+        const blob =
+          await respuesta.blob();
+
+
+        const url =
+          window.URL.createObjectURL(blob);
+
+
+        const enlace =
+          document.createElement("a");
+
+        enlace.href = url;
+
+        enlace.download =
+          "documento";
+
+
+        document.body.appendChild(enlace);
+
+        enlace.click();
+
+        enlace.remove();
+
+
+        window.URL.revokeObjectURL(url);
+
+      } catch (error) {
+
+        console.error(
+          "Error descargando documento:",
+          error
+        );
+
+        alert(
+          "No se ha podido descargar el documento."
+        );
+      }
+    }
+
+
+    // =====================================================
+    // SUBIR DOCUMENTO
+    // =====================================================
+
+    document
+      .getElementById("documentoForm")
+      .addEventListener(
+        "submit",
+        async (event) => {
+
+          event.preventDefault();
+
+
+          const message =
+            document.getElementById("subidaMessage");
+
+
+          const nombre =
+            document.getElementById("nombre").value.trim();
+
+
+          const tipo =
+            document.getElementById("tipo").value.trim();
+
+
+          const archivo =
+            document.getElementById("archivo").files[0];
+
+
+          if (!nombre || !tipo || !archivo) {
+
+            message.textContent =
+              "Debes completar todos los campos.";
+
+            return;
+          }
+
+
+          message.textContent =
+            "Subiendo documento...";
+
+
+          try {
+
+            const formulario =
+              new FormData();
+
+
+            formulario.append(
+              "clienteId",
+              usuario.clienteId || usuario.id
+            );
+
+
+            formulario.append(
+              "nombre",
+              nombre
+            );
+
+
+            formulario.append(
+              "tipo",
+              tipo
+            );
+
+
+            formulario.append(
+              "archivo",
+              archivo
+            );
+
+
+            const respuesta =
+              await fetch(
+                `${API_URL}/api/documentos`,
+                {
+                  method: "POST",
+
+                  headers: {
+                    "Authorization": `Bearer ${token}`
+                  },
+
+                  body: formulario
+                }
+              );
+
+
+            const datos =
+              await respuesta.json();
+
+
+            if (!respuesta.ok || !datos.ok) {
+
+              message.textContent =
+                datos.message ||
+                "No se ha podido subir el documento.";
+
+              return;
+            }
+
+
+            message.textContent =
+              "Documento subido correctamente.";
+
+
+            document
+              .getElementById("documentoForm")
+              .reset();
+
+
+            await cargarDocumentos();
+
+          } catch (error) {
+
+            console.error(
+              "Error subiendo documento:",
+              error
+            );
+
+            message.textContent =
+              "No se ha podido conectar con el servidor.";
+          }
+        }
+      );
+
+
+    // =====================================================
+    // RECARGAR
+    // =====================================================
+
+    document
+      .getElementById("recargarDocumentos")
+      .addEventListener(
+        "click",
+        cargarDocumentos
+      );
+
+
+    // =====================================================
+    // FORMATEAR FECHA
+    // =====================================================
+
+    function formatearFecha(fecha) {
+
+      if (!fecha) {
+        return "-";
+      }
+
+
+      const fechaObjeto =
+        new Date(fecha);
+
+
+      return fechaObjeto.toLocaleString(
+        "es-ES",
+        {
+          dateStyle: "short",
+          timeStyle: "short"
+        }
+      );
+    }
+
+
+    // =====================================================
+    // INICIO
+    // =====================================================
+
+    cargarDocumentos();
+
+  </script>
+
+</body>
+</html>
+
