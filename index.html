@@ -1,17 +1,138 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Portal del Cliente</title>
 </head>
 
 <body>
 
-  <div id="app">
-    <h1>Portal del Cliente</h1>
-    <p>Bienvenido al Portal del Cliente.</p>
-  </div>
+  <header>
+    <div>
+      <h1>Portal del Cliente</h1>
+      <p id="nombreUsuario">Cargando...</p>
+    </div>
+
+    <button id="cerrarSesion" type="button">
+      Cerrar sesión
+    </button>
+  </header>
+
+
+  <main>
+
+    <section>
+      <h2>Bienvenido</h2>
+      <p>
+        Desde este portal puedes consultar y gestionar la información
+        disponible para tu cuenta.
+      </p>
+    </section>
+
+
+    <section>
+      <h2>Mis módulos</h2>
+
+      <div>
+
+        <article>
+          <h3>Documentos</h3>
+          <p>
+            Consulta y gestiona tus documentos.
+          </p>
+          <a href="modulos/documentos/index.html">
+            Acceder a documentos
+          </a>
+        </article>
+
+
+        <article>
+          <h3>Tareas</h3>
+          <p>
+            Consulta tus tareas y actualiza su estado.
+          </p>
+          <a href="modulos/tareas/index.html">
+            Acceder a tareas
+          </a>
+        </article>
+
+
+        <article>
+          <h3>Avisos</h3>
+          <p>
+            Consulta los avisos dirigidos a ti.
+          </p>
+          <a href="modulos/avisos/index.html">
+            Acceder a avisos
+          </a>
+        </article>
+
+
+        <article>
+          <h3>Calendario</h3>
+          <p>
+            Consulta los eventos de tu calendario.
+          </p>
+          <a href="modulos/calendario/index.html">
+            Acceder al calendario
+          </a>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
+
+
+  <script>
+    // =====================================================
+    // COMPROBAR SESIÓN
+    // =====================================================
+
+    const token = localStorage.getItem("token");
+    const usuarioGuardado = localStorage.getItem("usuario");
+
+    if (!token || !usuarioGuardado) {
+      window.location.href = "login.html";
+    }
+
+
+    // =====================================================
+    // MOSTRAR USUARIO
+    // =====================================================
+
+    try {
+      const usuario = JSON.parse(usuarioGuardado);
+
+      document.getElementById("nombreUsuario").textContent =
+        `Hola, ${usuario.nombre}`;
+    } catch (error) {
+      console.error("Error leyendo los datos del usuario:", error);
+
+      localStorage.removeItem("token");
+      localStorage.removeItem("usuario");
+
+      window.location.href = "login.html";
+    }
+
+
+    // =====================================================
+    // CERRAR SESIÓN
+    // =====================================================
+
+    document
+      .getElementById("cerrarSesion")
+      .addEventListener("click", () => {
+
+        localStorage.removeItem("token");
+        localStorage.removeItem("usuario");
+
+        window.location.href = "login.html";
+      });
+  </script>
 
 </body>
 </html>
