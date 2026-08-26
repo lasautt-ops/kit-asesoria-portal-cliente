@@ -18,6 +18,7 @@
 
     <div>
       <a href="../../index.html">Volver al inicio</a>
+
       <button id="cerrarSesion" type="button">
         Cerrar sesión
       </button>
@@ -90,7 +91,7 @@
 
 
     <!-- =====================================================
-         LISTADO DE DOCUMENTOS
+         LISTADO
          ===================================================== -->
 
     <section>
@@ -121,24 +122,36 @@
 
 
     // =====================================================
-    // COMPROBAR SESIÓN
+    // SESIÓN
     // =====================================================
 
-    const token = localStorage.getItem("token");
-    const usuarioGuardado = localStorage.getItem("usuario");
+    const token =
+      localStorage.getItem("token");
+
+    const usuarioGuardado =
+      localStorage.getItem("usuario");
+
 
     if (!token || !usuarioGuardado) {
-      window.location.href = "../../login.html";
+
+      window.location.href =
+        "../../login.html";
     }
 
 
     let usuario;
+    let clienteId = null;
+
 
     try {
-      usuario = JSON.parse(usuarioGuardado);
 
-      document.getElementById("nombreUsuario").textContent =
-        `Hola, ${usuario.nombre}`;
+      usuario =
+        JSON.parse(usuarioGuardado);
+
+      document
+        .getElementById("nombreUsuario")
+        .textContent =
+          `Hola, ${usuario.nombre}`;
 
     } catch (error) {
 
@@ -150,7 +163,64 @@
       localStorage.removeItem("token");
       localStorage.removeItem("usuario");
 
-      window.location.href = "../../login.html";
+      window.location.href =
+        "../../login.html";
+    }
+
+
+    // =====================================================
+    // OBTENER CLIENTE AUTENTICADO
+    // =====================================================
+
+    async function cargarCliente() {
+
+      try {
+
+        const respuesta =
+          await fetch(
+            `${API_URL}/api/cliente`,
+            {
+              method: "GET",
+
+              headers: {
+                "Authorization": `Bearer ${token}`
+              }
+            }
+          );
+
+
+        const datos =
+          await respuesta.json();
+
+
+        if (!respuesta.ok || !datos.ok) {
+
+          throw new Error(
+            datos.message ||
+            "No se ha podido obtener el cliente."
+          );
+        }
+
+
+        clienteId =
+          datos.cliente.id;
+
+
+        return datos.cliente;
+
+      } catch (error) {
+
+        console.error(
+          "Error obteniendo cliente:",
+          error
+        );
+
+        alert(
+          "No se han podido cargar los datos del cliente."
+        );
+
+        return null;
+      }
     }
 
 
@@ -160,13 +230,17 @@
 
     document
       .getElementById("cerrarSesion")
-      .addEventListener("click", () => {
+      .addEventListener(
+        "click",
+        () => {
 
-        localStorage.removeItem("token");
-        localStorage.removeItem("usuario");
+          localStorage.removeItem("token");
+          localStorage.removeItem("usuario");
 
-        window.location.href = "../../login.html";
-      });
+          window.location.href =
+            "../../login.html";
+        }
+      );
 
 
     // =====================================================
@@ -176,31 +250,40 @@
     async function cargarDocumentos() {
 
       const container =
-        document.getElementById("documentosContainer");
+        document.getElementById(
+          "documentosContainer"
+        );
+
 
       const message =
-        document.getElementById("listadoMessage");
+        document.getElementById(
+          "listadoMessage"
+        );
+
 
       container.innerHTML =
         "Cargando documentos...";
 
       message.textContent = "";
 
+
       try {
 
-        const respuesta = await fetch(
-          `${API_URL}/api/documentos`,
-          {
-            method: "GET",
+        const respuesta =
+          await fetch(
+            `${API_URL}/api/documentos`,
+            {
+              method: "GET",
 
-            headers: {
-              "Authorization": `Bearer ${token}`
+              headers: {
+                "Authorization": `Bearer ${token}`
+              }
             }
-          }
-        );
+          );
 
 
-        const datos = await respuesta.json();
+        const datos =
+          await respuesta.json();
 
 
         if (!respuesta.ok || !datos.ok) {
@@ -230,71 +313,97 @@
         container.innerHTML = "";
 
 
-        datos.documentos.forEach((documento) => {
+        datos.documentos.forEach(
+          (documento) => {
 
-          const article =
-            document.createElement("article");
-
-
-          const nombre =
-            document.createElement("h3");
-
-          nombre.textContent =
-            documento.nombre;
+            const article =
+              document.createElement(
+                "article"
+              );
 
 
-          const archivo =
-            document.createElement("p");
+            const nombre =
+              document.createElement(
+                "h3"
+              );
 
-          archivo.textContent =
-            `Archivo: ${documento.nombreArchivo}`;
-
-
-          const tipo =
-            document.createElement("p");
-
-          tipo.textContent =
-            `Tipo: ${documento.tipo}`;
+            nombre.textContent =
+              documento.nombre;
 
 
-          const estado =
-            document.createElement("p");
+            const archivo =
+              document.createElement(
+                "p"
+              );
 
-          estado.textContent =
-            `Estado: ${documento.estado}`;
-
-
-          const fecha =
-            document.createElement("p");
-
-          fecha.textContent =
-            `Fecha: ${formatearFecha(documento.createdAt)}`;
+            archivo.textContent =
+              `Archivo: ${documento.nombreArchivo}`;
 
 
-          const descargar =
-            document.createElement("button");
+            const tipo =
+              document.createElement(
+                "p"
+              );
 
-          descargar.type = "button";
-          descargar.textContent =
-            "Descargar";
-
-
-          descargar.addEventListener(
-            "click",
-            () => descargarDocumento(documento.id)
-          );
+            tipo.textContent =
+              `Tipo: ${documento.tipo}`;
 
 
-          article.appendChild(nombre);
-          article.appendChild(archivo);
-          article.appendChild(tipo);
-          article.appendChild(estado);
-          article.appendChild(fecha);
-          article.appendChild(descargar);
+            const estado =
+              document.createElement(
+                "p"
+              );
+
+            estado.textContent =
+              `Estado: ${documento.estado}`;
 
 
-          container.appendChild(article);
-        });
+            const fecha =
+              document.createElement(
+                "p"
+              );
+
+            fecha.textContent =
+              `Fecha: ${formatearFecha(
+                documento.createdAt
+              )}`;
+
+
+            const descargar =
+              document.createElement(
+                "button"
+              );
+
+
+            descargar.type =
+              "button";
+
+            descargar.textContent =
+              "Descargar";
+
+
+            descargar.addEventListener(
+              "click",
+              () =>
+                descargarDocumento(
+                  documento.id
+                )
+            );
+
+
+            article.appendChild(nombre);
+            article.appendChild(archivo);
+            article.appendChild(tipo);
+            article.appendChild(estado);
+            article.appendChild(fecha);
+            article.appendChild(descargar);
+
+
+            container.appendChild(
+              article
+            );
+          }
+        );
 
       } catch (error) {
 
@@ -319,16 +428,18 @@
 
       try {
 
-        const respuesta = await fetch(
-          `${API_URL}/api/documentos/${id}/descargar`,
-          {
-            method: "GET",
+        const respuesta =
+          await fetch(
+            `${API_URL}/api/documentos/${id}/descargar`,
+            {
+              method: "GET",
 
-            headers: {
-              "Authorization": `Bearer ${token}`
+              headers: {
+                "Authorization":
+                  `Bearer ${token}`
+              }
             }
-          }
-        );
+          );
 
 
         if (!respuesta.ok) {
@@ -336,10 +447,14 @@
           let datos = {};
 
           try {
-            datos = await respuesta.json();
+
+            datos =
+              await respuesta.json();
+
           } catch (error) {
             // La respuesta puede no ser JSON.
           }
+
 
           alert(
             datos.message ||
@@ -355,26 +470,39 @@
 
 
         const url =
-          window.URL.createObjectURL(blob);
+          window.URL.createObjectURL(
+            blob
+          );
 
 
         const enlace =
-          document.createElement("a");
+          document.createElement(
+            "a"
+          );
 
-        enlace.href = url;
+
+        enlace.href =
+          url;
+
 
         enlace.download =
           "documento";
 
 
-        document.body.appendChild(enlace);
+        document.body.appendChild(
+          enlace
+        );
+
 
         enlace.click();
+
 
         enlace.remove();
 
 
-        window.URL.revokeObjectURL(url);
+        window.URL.revokeObjectURL(
+          url
+        );
 
       } catch (error) {
 
@@ -404,27 +532,59 @@
 
 
           const message =
-            document.getElementById("subidaMessage");
+            document.getElementById(
+              "subidaMessage"
+            );
 
 
           const nombre =
-            document.getElementById("nombre").value.trim();
+            document
+              .getElementById("nombre")
+              .value
+              .trim();
 
 
           const tipo =
-            document.getElementById("tipo").value.trim();
+            document
+              .getElementById("tipo")
+              .value
+              .trim();
 
 
           const archivo =
-            document.getElementById("archivo").files[0];
+            document
+              .getElementById("archivo")
+              .files[0];
 
 
-          if (!nombre || !tipo || !archivo) {
+          if (
+            !nombre ||
+            !tipo ||
+            !archivo
+          ) {
 
             message.textContent =
               "Debes completar todos los campos.";
 
             return;
+          }
+
+
+          // Si todavía no tenemos el cliente,
+          // lo obtenemos antes de subir.
+          if (!clienteId) {
+
+            const cliente =
+              await cargarCliente();
+
+
+            if (!cliente) {
+
+              message.textContent =
+                "No se han podido obtener los datos del cliente.";
+
+              return;
+            }
           }
 
 
@@ -440,7 +600,7 @@
 
             formulario.append(
               "clienteId",
-              usuario.clienteId || usuario.id
+              clienteId
             );
 
 
@@ -469,7 +629,8 @@
                   method: "POST",
 
                   headers: {
-                    "Authorization": `Bearer ${token}`
+                    "Authorization":
+                      `Bearer ${token}`
                   },
 
                   body: formulario
@@ -481,7 +642,10 @@
               await respuesta.json();
 
 
-            if (!respuesta.ok || !datos.ok) {
+            if (
+              !respuesta.ok ||
+              !datos.ok
+            ) {
 
               message.textContent =
                 datos.message ||
@@ -496,7 +660,9 @@
 
 
             document
-              .getElementById("documentoForm")
+              .getElementById(
+                "documentoForm"
+              )
               .reset();
 
 
@@ -521,7 +687,9 @@
     // =====================================================
 
     document
-      .getElementById("recargarDocumentos")
+      .getElementById(
+        "recargarDocumentos"
+      )
       .addEventListener(
         "click",
         cargarDocumentos
@@ -557,7 +725,22 @@
     // INICIO
     // =====================================================
 
-    cargarDocumentos();
+    async function iniciarModulo() {
+
+      const cliente =
+        await cargarCliente();
+
+
+      if (!cliente) {
+        return;
+      }
+
+
+      await cargarDocumentos();
+    }
+
+
+    iniciarModulo();
 
   </script>
 
