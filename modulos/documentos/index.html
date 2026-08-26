@@ -1,210 +1,313 @@
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>Documentos - Portal del Cliente</title>
 
-  <link rel="stylesheet" href="../../css/styles.css">
+  <link
+    rel="stylesheet"
+    href="../../css/estilos.css"
+  >
+
 </head>
+
 
 <body>
 
-  <header class="portal-header">
 
-    <div class="portal-header-content">
+  <main
+    class="portal-container"
+  >
 
-      <div class="portal-brand">
 
-        <div class="portal-brand-icon">
-          📁
-        </div>
+    <!-- =================================================
+         CABECERA
+         ================================================= -->
+
+    <section
+      class="welcome-section"
+      style="
+        margin-bottom: 25px;
+      "
+    >
+
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 20px;
+          flex-wrap: wrap;
+        "
+      >
 
         <div>
-          <h1>Documentos</h1>
-          <p id="nombreUsuario">Cargando...</p>
+
+          <div
+            style="
+              font-size: 42px;
+              margin-bottom: 10px;
+            "
+          >
+            📄
+          </div>
+
+          <h2
+            style="
+              margin-bottom: 8px;
+            "
+          >
+            Documentos
+          </h2>
+
+          <p
+            id="nombreUsuario"
+          >
+            Cargando...
+          </p>
+
         </div>
 
-      </div>
 
-
-      <div class="portal-header-actions">
-
-        <a
-          href="../../index.html"
-          class="btn btn-secondary"
+        <div
+          style="
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+          "
         >
-          ← Volver al portal
-        </a>
 
-        <button
-          id="cerrarSesion"
-          type="button"
-          class="btn btn-outline"
-        >
-          Cerrar sesión
-        </button>
-
-      </div>
-
-    </div>
-
-  </header>
+          <a
+            href="../../index.html"
+            class="btn"
+            style="
+              text-decoration: none;
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            ← Volver al portal
+          </a>
 
 
-  <main class="portal-main">
+          <button
+            id="cerrarSesion"
+            type="button"
+            class="btn"
+          >
+            Cerrar sesión
+          </button>
 
-
-    <!-- =====================================================
-         CABECERA DEL MÓDULO
-         ===================================================== -->
-
-    <section class="module-intro">
-
-      <div>
-
-        <span class="module-label">
-          GESTIÓN DOCUMENTAL
-        </span>
-
-        <h2>
-          Mis documentos
-        </h2>
-
-        <p>
-          Consulta, descarga y envía documentos a tu asesoría
-          de forma sencilla y segura.
-        </p>
+        </div>
 
       </div>
 
     </section>
 
 
-    <!-- =====================================================
+
+    <!-- =================================================
          SUBIR DOCUMENTO
-         ===================================================== -->
+         ================================================= -->
 
-    <section class="card upload-card">
+    <section
+      style="
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 30px;
+        margin-bottom: 25px;
+      "
+    >
 
-      <div class="card-header">
+      <div
+        style="
+          margin-bottom: 25px;
+        "
+      >
 
-        <div>
+        <h3
+          style="
+            margin-top: 0;
+            margin-bottom: 8px;
+            color: #111827;
+          "
+        >
+          Subir documento
+        </h3>
 
-          <h2>
-            Subir documento
-          </h2>
-
-          <p>
-            Envía un nuevo documento a tu asesoría.
-          </p>
-
-        </div>
-
-        <div class="card-icon">
-          ↑
-        </div>
+        <p
+          style="
+            margin: 0;
+            color: #6b7280;
+            font-size: 14px;
+          "
+        >
+          Añade un documento para que tu asesoría pueda gestionarlo.
+        </p>
 
       </div>
 
 
-      <form id="documentoForm" class="document-form">
+      <form id="documentoForm">
 
 
-        <div class="form-row">
+        <!-- NOMBRE -->
 
+        <div
+          style="
+            margin-bottom: 20px;
+          "
+        >
 
-          <div class="form-group">
+          <label
+            for="nombre"
+            style="
+              display: block;
+              margin-bottom: 7px;
+              font-size: 14px;
+              font-weight: 600;
+              color: #374151;
+            "
+          >
+            Nombre del documento
+          </label>
 
-            <label for="nombre">
-              Nombre del documento
-            </label>
-
-            <input
-              type="text"
-              id="nombre"
-              name="nombre"
-              placeholder="Ej.: Factura agosto 2026"
-              required
-            >
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label for="tipo">
-              Tipo de documento
-            </label>
-
-            <input
-              type="text"
-              id="tipo"
-              name="tipo"
-              placeholder="Ej.: Factura, contrato, certificado..."
-              required
-            >
-
-          </div>
-
+          <input
+            type="text"
+            id="nombre"
+            name="nombre"
+            required
+            placeholder="Ej.: Factura de agosto"
+            style="
+              width: 100%;
+              padding: 12px;
+              border: 1px solid #d1d5db;
+              border-radius: 8px;
+              font-size: 15px;
+              outline: none;
+              box-sizing: border-box;
+            "
+          >
 
         </div>
 
 
-        <div class="form-group">
 
-          <label for="archivo">
+        <!-- TIPO -->
+
+        <div
+          style="
+            margin-bottom: 20px;
+          "
+        >
+
+          <label
+            for="tipo"
+            style="
+              display: block;
+              margin-bottom: 7px;
+              font-size: 14px;
+              font-weight: 600;
+              color: #374151;
+            "
+          >
+            Tipo de documento
+          </label>
+
+          <input
+            type="text"
+            id="tipo"
+            name="tipo"
+            placeholder="Ej.: Factura, contrato, certificado..."
+            required
+            style="
+              width: 100%;
+              padding: 12px;
+              border: 1px solid #d1d5db;
+              border-radius: 8px;
+              font-size: 15px;
+              outline: none;
+              box-sizing: border-box;
+            "
+          >
+
+        </div>
+
+
+
+        <!-- ARCHIVO -->
+
+        <div
+          style="
+            margin-bottom: 25px;
+          "
+        >
+
+          <label
+            for="archivo"
+            style="
+              display: block;
+              margin-bottom: 7px;
+              font-size: 14px;
+              font-weight: 600;
+              color: #374151;
+            "
+          >
             Archivo
           </label>
 
-          <div class="file-upload">
-
-            <input
-              type="file"
-              id="archivo"
-              name="archivo"
-              required
-            >
-
-            <label
-              for="archivo"
-              class="file-upload-label"
-            >
-              <span class="file-upload-icon">
-                📎
-              </span>
-
-              <span>
-                Seleccionar archivo
-              </span>
-
-              <small>
-                Elige el archivo que quieres enviar
-              </small>
-            </label>
-
-          </div>
-
-        </div>
-
-
-        <div class="form-actions">
-
-          <button
-            type="submit"
-            class="btn btn-primary"
+          <input
+            type="file"
+            id="archivo"
+            name="archivo"
+            required
+            style="
+              width: 100%;
+              padding: 10px;
+              border: 1px solid #d1d5db;
+              border-radius: 8px;
+              font-size: 14px;
+              box-sizing: border-box;
+              background: #f9fafb;
+            "
           >
-            Subir documento
-          </button>
-
-          <p
-            id="subidaMessage"
-            class="form-message"
-          ></p>
 
         </div>
+
+
+
+        <!-- BOTÓN -->
+
+        <button
+          type="submit"
+          id="subirDocumentoButton"
+          class="btn btn-primary"
+          style="
+            padding: 12px 20px;
+          "
+        >
+          Subir documento
+        </button>
+
+
+        <p
+          id="subidaMessage"
+          class="message"
+          style="
+            margin-top: 15px;
+          "
+        ></p>
 
 
       </form>
@@ -212,23 +315,51 @@
     </section>
 
 
-    <!-- =====================================================
-         LISTADO DE DOCUMENTOS
-         ===================================================== -->
 
-    <section class="card documents-card">
+    <!-- =================================================
+         MIS DOCUMENTOS
+         ================================================= -->
 
+    <section
+      style="
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 30px;
+      "
+    >
 
-      <div class="card-header">
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 15px;
+          flex-wrap: wrap;
+          margin-bottom: 25px;
+        "
+      >
 
         <div>
 
-          <h2>
+          <h3
+            style="
+              margin-top: 0;
+              margin-bottom: 8px;
+              color: #111827;
+            "
+          >
             Mis documentos
-          </h2>
+          </h3>
 
-          <p>
-            Documentos enviados y disponibles para ti.
+          <p
+            style="
+              margin: 0;
+              color: #6b7280;
+              font-size: 14px;
+            "
+          >
+            Consulta y descarga los documentos asociados a tu cuenta.
           </p>
 
         </div>
@@ -237,7 +368,7 @@
         <button
           id="recargarDocumentos"
           type="button"
-          class="btn btn-secondary"
+          class="btn"
         >
           ↻ Recargar
         </button>
@@ -247,18 +378,14 @@
 
       <p
         id="listadoMessage"
-        class="form-message"
+        class="message"
       ></p>
 
 
       <div
         id="documentosContainer"
-        class="documents-grid"
       >
-        <div class="loading-state">
-          <span class="loading-spinner"></span>
-          <p>Cargando documentos...</p>
-        </div>
+        Cargando documentos...
       </div>
 
 
@@ -267,6 +394,19 @@
 
   </main>
 
+
+
+  <!-- =================================================
+       JAVASCRIPT COMÚN
+       ================================================= -->
+
+  <script src="../../js/comun.js"></script>
+
+
+
+  <!-- =================================================
+       DOCUMENTOS
+       ================================================= -->
 
   <script>
 
@@ -293,6 +433,7 @@
 
       window.location.href =
         "../../login.html";
+
     }
 
 
@@ -305,10 +446,12 @@
       usuario =
         JSON.parse(usuarioGuardado);
 
+
       document
         .getElementById("nombreUsuario")
         .textContent =
           `Hola, ${usuario.nombre}`;
+
 
     } catch (error) {
 
@@ -317,12 +460,16 @@
         error
       );
 
+
       localStorage.removeItem("token");
       localStorage.removeItem("usuario");
 
+
       window.location.href =
         "../../login.html";
+
     }
+
 
 
     // =====================================================
@@ -340,7 +487,8 @@
               method: "GET",
 
               headers: {
-                "Authorization": `Bearer ${token}`
+                "Authorization":
+                  `Bearer ${token}`
               }
             }
           );
@@ -356,6 +504,7 @@
             datos.message ||
             "No se ha podido obtener el cliente."
           );
+
         }
 
 
@@ -365,6 +514,7 @@
 
         return datos.cliente;
 
+
       } catch (error) {
 
         console.error(
@@ -372,13 +522,18 @@
           error
         );
 
+
         alert(
           "No se han podido cargar los datos del cliente."
         );
 
+
         return null;
+
       }
+
     }
+
 
 
     // =====================================================
@@ -394,10 +549,13 @@
           localStorage.removeItem("token");
           localStorage.removeItem("usuario");
 
+
           window.location.href =
             "../../login.html";
+
         }
       );
+
 
 
     // =====================================================
@@ -418,14 +576,12 @@
         );
 
 
-      container.innerHTML = `
-        <div class="loading-state">
-          <span class="loading-spinner"></span>
-          <p>Cargando documentos...</p>
-        </div>
-      `;
+      container.innerHTML =
+        "Cargando documentos...";
 
-      message.textContent = "";
+
+      message.textContent =
+        "";
 
 
       try {
@@ -437,7 +593,8 @@
               method: "GET",
 
               headers: {
-                "Authorization": `Bearer ${token}`
+                "Authorization":
+                  `Bearer ${token}`
               }
             }
           );
@@ -449,13 +606,17 @@
 
         if (!respuesta.ok || !datos.ok) {
 
-          container.innerHTML = "";
+          container.innerHTML =
+            "";
+
 
           message.textContent =
             datos.message ||
             "No se han podido cargar los documentos.";
 
+
           return;
+
         }
 
 
@@ -465,28 +626,44 @@
         ) {
 
           container.innerHTML = `
-            <div class="empty-state">
 
-              <div class="empty-state-icon">
-                📄
+            <div
+              style="
+                text-align: center;
+                padding: 40px 20px;
+                color: #6b7280;
+              "
+            >
+
+              <div
+                style="
+                  font-size: 42px;
+                  margin-bottom: 12px;
+                "
+              >
+                📂
               </div>
 
-              <h3>
-                No tienes documentos
-              </h3>
-
-              <p>
-                Cuando envíes un documento aparecerá aquí.
+              <p
+                style="
+                  margin: 0;
+                "
+              >
+                No tienes documentos disponibles.
               </p>
 
             </div>
+
           `;
 
+
           return;
+
         }
 
 
-        container.innerHTML = "";
+        container.innerHTML =
+          "";
 
 
         datos.documentos.forEach(
@@ -498,94 +675,46 @@
               );
 
 
-            article.className =
-              "document-card";
+            article.style.cssText = `
+              border: 1px solid #e5e7eb;
+              border-radius: 10px;
+              padding: 20px;
+              margin-bottom: 15px;
+              background: #f9fafb;
+            `;
 
 
-            const header =
+            const cabecera =
               document.createElement(
                 "div"
               );
 
-            header.className =
-              "document-card-header";
+
+            cabecera.style.cssText = `
+              display: flex;
+              justify-content: space-between;
+              align-items: flex-start;
+              gap: 15px;
+              flex-wrap: wrap;
+              margin-bottom: 15px;
+            `;
 
 
-            const icono =
-              document.createElement(
-                "div"
-              );
-
-            icono.className =
-              "document-icon";
-
-            icono.textContent =
-              "📄";
-
-
-            const titulo =
+            const nombre =
               document.createElement(
                 "h3"
               );
 
-            titulo.textContent =
+
+            nombre.textContent =
               documento.nombre;
 
 
-            header.appendChild(icono);
-            header.appendChild(titulo);
-
-
-            const informacion =
-              document.createElement(
-                "div"
-              );
-
-            informacion.className =
-              "document-info";
-
-
-            const archivo =
-              document.createElement(
-                "p"
-              );
-
-            archivo.innerHTML =
-              `<strong>Archivo:</strong> ${documento.nombreArchivo}`;
-
-
-            const tipo =
-              document.createElement(
-                "p"
-              );
-
-            tipo.innerHTML =
-              `<strong>Tipo:</strong> ${documento.tipo}`;
-
-
-            const fecha =
-              document.createElement(
-                "p"
-              );
-
-            fecha.innerHTML =
-              `<strong>Fecha:</strong> ${formatearFecha(
-                documento.createdAt
-              )}`;
-
-
-            informacion.appendChild(archivo);
-            informacion.appendChild(tipo);
-            informacion.appendChild(fecha);
-
-
-            const footer =
-              document.createElement(
-                "div"
-              );
-
-            footer.className =
-              "document-card-footer";
+            nombre.style.cssText = `
+              margin: 0;
+              color: #111827;
+              font-size: 17px;
+            `;
 
 
             const estado =
@@ -593,13 +722,64 @@
                 "span"
               );
 
-            estado.className =
-              `status-badge status-${String(
-                documento.estado
-              ).toLowerCase()}`;
 
             estado.textContent =
               documento.estado;
+
+
+            estado.style.cssText = `
+              display: inline-block;
+              padding: 5px 10px;
+              border-radius: 999px;
+              background: #eef2ff;
+              color: #4338ca;
+              font-size: 12px;
+              font-weight: 600;
+            `;
+
+
+            cabecera.appendChild(
+              nombre
+            );
+
+
+            cabecera.appendChild(
+              estado
+            );
+
+
+            const informacion =
+              document.createElement(
+                "div"
+              );
+
+
+            informacion.style.cssText = `
+              color: #4b5563;
+              font-size: 14px;
+              line-height: 1.7;
+              margin-bottom: 18px;
+            `;
+
+
+            informacion.innerHTML = `
+
+              <div>
+                <strong>Archivo:</strong>
+                ${escapeHtml(documento.nombreArchivo)}
+              </div>
+
+              <div>
+                <strong>Tipo:</strong>
+                ${escapeHtml(documento.tipo)}
+              </div>
+
+              <div>
+                <strong>Fecha:</strong>
+                ${formatearFecha(documento.createdAt)}
+              </div>
+
+            `;
 
 
             const descargar =
@@ -611,8 +791,10 @@
             descargar.type =
               "button";
 
+
             descargar.className =
-              "btn btn-primary btn-small";
+              "btn btn-primary";
+
 
             descargar.textContent =
               "↓ Descargar";
@@ -627,20 +809,28 @@
             );
 
 
-            footer.appendChild(estado);
-            footer.appendChild(descargar);
+            article.appendChild(
+              cabecera
+            );
 
 
-            article.appendChild(header);
-            article.appendChild(informacion);
-            article.appendChild(footer);
+            article.appendChild(
+              informacion
+            );
+
+
+            article.appendChild(
+              descargar
+            );
 
 
             container.appendChild(
               article
             );
+
           }
         );
+
 
       } catch (error) {
 
@@ -649,12 +839,18 @@
           error
         );
 
-        container.innerHTML = "";
+
+        container.innerHTML =
+          "";
+
 
         message.textContent =
           "No se ha podido conectar con el servidor.";
+
       }
+
     }
+
 
 
     // =====================================================
@@ -683,6 +879,7 @@
 
           let datos = {};
 
+
           try {
 
             datos =
@@ -698,7 +895,9 @@
             "No se ha podido descargar el documento."
           );
 
+
           return;
+
         }
 
 
@@ -741,6 +940,7 @@
           url
         );
 
+
       } catch (error) {
 
         console.error(
@@ -748,11 +948,15 @@
           error
         );
 
+
         alert(
           "No se ha podido descargar el documento."
         );
+
       }
+
     }
+
 
 
     // =====================================================
@@ -771,6 +975,12 @@
           const message =
             document.getElementById(
               "subidaMessage"
+            );
+
+
+          const button =
+            document.getElementById(
+              "subirDocumentoButton"
             );
 
 
@@ -803,12 +1013,12 @@
             message.textContent =
               "Debes completar todos los campos.";
 
+
             return;
+
           }
 
 
-          // Si todavía no tenemos el cliente,
-          // lo obtenemos antes de subir.
           if (!clienteId) {
 
             const cliente =
@@ -820,13 +1030,24 @@
               message.textContent =
                 "No se han podido obtener los datos del cliente.";
 
+
               return;
+
             }
+
           }
 
 
           message.textContent =
             "Subiendo documento...";
+
+
+          button.disabled =
+            true;
+
+
+          button.textContent =
+            "Subiendo...";
 
 
           try {
@@ -888,7 +1109,9 @@
                 datos.message ||
                 "No se ha podido subir el documento.";
 
+
               return;
+
             }
 
 
@@ -905,6 +1128,7 @@
 
             await cargarDocumentos();
 
+
           } catch (error) {
 
             console.error(
@@ -912,11 +1136,24 @@
               error
             );
 
+
             message.textContent =
               "No se ha podido conectar con el servidor.";
+
+          } finally {
+
+            button.disabled =
+              false;
+
+
+            button.textContent =
+              "Subir documento";
+
           }
+
         }
       );
+
 
 
     // =====================================================
@@ -933,6 +1170,7 @@
       );
 
 
+
     // =====================================================
     // FORMATEAR FECHA
     // =====================================================
@@ -940,7 +1178,9 @@
     function formatearFecha(fecha) {
 
       if (!fecha) {
+
         return "-";
+
       }
 
 
@@ -955,7 +1195,31 @@
           timeStyle: "short"
         }
       );
+
     }
+
+
+
+    // =====================================================
+    // ESCAPAR HTML
+    // =====================================================
+
+    function escapeHtml(valor) {
+
+      const elemento =
+        document.createElement(
+          "div"
+        );
+
+
+      elemento.textContent =
+        valor ?? "";
+
+
+      return elemento.innerHTML;
+
+    }
+
 
 
     // =====================================================
@@ -969,11 +1233,14 @@
 
 
       if (!cliente) {
+
         return;
+
       }
 
 
       await cargarDocumentos();
+
     }
 
 
@@ -981,8 +1248,9 @@
 
   </script>
 
-</body>
-</html>
 
+</body>
+
+</html>
 
 
