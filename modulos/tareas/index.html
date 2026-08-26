@@ -1,0 +1,635 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Tareas - Portal del Cliente</title>
+</head>
+
+<body>
+
+  <header>
+
+    <div>
+      <h1>Tareas</h1>
+      <p id="nombreUsuario">Cargando...</p>
+    </div>
+
+    <div>
+
+      <a href="../../index.html">
+        ← Volver al portal
+      </a>
+
+      <button
+        id="cerrarSesion"
+        type="button"
+      >
+        Cerrar sesión
+      </button>
+
+    </div>
+
+  </header>
+
+
+  <main>
+
+    <section>
+
+      <h2>Mis tareas</h2>
+
+      <button
+        id="recargarTareas"
+        type="button"
+      >
+        Recargar tareas
+      </button>
+
+      <p id="listadoMessage"></p>
+
+      <div id="tareasContainer">
+        Cargando tareas...
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <script>
+
+    // =====================================================
+    // CONFIGURACIÓN
+    // =====================================================
+
+    const API_URL =
+      "https://kit-asesoria-backend.vhtza8.easypanel.host";
+
+
+    // =====================================================
+    // SESIÓN
+    // =====================================================
+
+    const token =
+      localStorage.getItem("token");
+
+    const usuarioGuardado =
+      localStorage.getItem("usuario");
+
+
+    if (!token || !usuarioGuardado) {
+
+      window.location.href =
+        "../../login.html";
+    }
+
+
+    let usuario;
+
+
+    try {
+
+      usuario =
+        JSON.parse(usuarioGuardado);
+
+
+      document
+        .getElementById("nombreUsuario")
+        .textContent =
+          `Hola, ${usuario.nombre}`;
+
+    } catch (error) {
+
+      console.error(
+        "Error leyendo los datos del usuario:",
+        error
+      );
+
+
+      localStorage.removeItem("token");
+      localStorage.removeItem("usuario");
+
+
+      window.location.href =
+        "../../login.html";
+    }
+
+
+    // =====================================================
+    // CERRAR SESIÓN
+    // =====================================================
+
+    document
+      .getElementById("cerrarSesion")
+      .addEventListener(
+        "click",
+        () => {
+
+          localStorage.removeItem("token");
+          localStorage.removeItem("usuario");
+
+          window.location.href =
+            "../../login.html";
+        }
+      );
+
+
+    // =====================================================
+    // CARGAR TAREAS
+    // =====================================================
+
+    async function cargarTareas() {
+
+      const container =
+        document.getElementById(
+          "tareasContainer"
+        );
+
+
+      const message =
+        document.getElementById(
+          "listadoMessage"
+        );
+
+
+      container.innerHTML =
+        "Cargando tareas...";
+
+      message.textContent = "";
+
+
+      try {
+
+        const respuesta =
+          await fetch(
+            `${API_URL}/api/tareas`,
+            {
+              method: "GET",
+
+              headers: {
+                "Authorization":
+                  `Bearer ${token}`
+              }
+            }
+          );
+
+
+        const datos =
+          await respuesta.json();
+
+
+        if (
+          !respuesta.ok ||
+          !datos.ok
+        ) {
+
+          container.innerHTML = "";
+
+          message.textContent =
+            datos.message ||
+            "No se han podido cargar las tareas.";
+
+          return;
+        }
+
+
+        if (
+          !Array.isArray(datos.tareas) ||
+          datos.tareas.length === 0
+        ) {
+
+          container.innerHTML =
+            "<p>No tienes tareas disponibles.</p>";
+
+          return;
+        }
+
+
+        container.innerHTML = "";
+
+
+        datos.tareas.forEach(
+          (tarea) => {
+
+            const article =
+              document.createElement(
+                "article"
+              );
+
+
+            // =================================================
+            // TÍTULO
+            // =================================================
+
+            const titulo =
+              document.createElement(
+                "h3"
+              );
+
+
+            titulo.textContent =
+              tarea.titulo;
+
+
+            // =================================================
+            // DESCRIPCIÓN
+            // =================================================
+
+            const descripcion =
+              document.createElement(
+                "p"
+              );
+
+
+            descripcion.textContent =
+              tarea.descripcion ||
+              "Sin descripción";
+
+
+            // =================================================
+            // PRIORIDAD
+            // =================================================
+
+            const prioridad =
+              document.createElement(
+                "p"
+              );
+
+
+            prioridad.textContent =
+              `Prioridad: ${
+                tarea.prioridad || "-"
+              }`;
+
+
+            // =================================================
+            // FECHA LÍMITE
+            // =================================================
+
+            const fechaLimite =
+              document.createElement(
+                "p"
+              );
+
+
+            fechaLimite.textContent =
+              `Fecha límite: ${
+                formatearFecha(
+                  tarea.fechaLimite
+                )
+              }`;
+
+
+            // =================================================
+            // ESTADO
+            // =================================================
+
+            const estadoLabel =
+              document.createElement(
+                "label"
+              );
+
+
+            estadoLabel.textContent =
+              "Estado: ";
+
+
+            const estadoSelect =
+              document.createElement(
+                "select"
+              );
+
+
+            const estadosPermitidos = [
+              "PENDIENTE",
+              "EN_PROCESO",
+              "COMPLETADA",
+              "CANCELADA"
+            ];
+
+
+            estadosPermitidos.forEach(
+              (estado) => {
+
+                const option =
+                  document.createElement(
+                    "option"
+                  );
+
+
+                option.value =
+                  estado;
+
+
+                option.textContent =
+                  formatearEstado(
+                    estado
+                  );
+
+
+                if (
+                  tarea.estado === estado
+                ) {
+
+                  option.selected =
+                    true;
+                }
+
+
+                estadoSelect.appendChild(
+                  option
+                );
+              }
+            );
+
+
+            // =================================================
+            // BOTÓN ACTUALIZAR ESTADO
+            // =================================================
+
+            const actualizar =
+              document.createElement(
+                "button"
+              );
+
+
+            actualizar.type =
+              "button";
+
+
+            actualizar.textContent =
+              "Actualizar estado";
+
+
+            actualizar.addEventListener(
+              "click",
+              () =>
+                actualizarEstado(
+                  tarea.id,
+                  estadoSelect.value,
+                  actualizar
+                )
+            );
+
+
+            // =================================================
+            // CONTENEDOR DE ESTADO
+            // =================================================
+
+            const estadoContainer =
+              document.createElement(
+                "div"
+              );
+
+
+            estadoContainer.appendChild(
+              estadoLabel
+            );
+
+
+            estadoContainer.appendChild(
+              estadoSelect
+            );
+
+
+            estadoContainer.appendChild(
+              actualizar
+            );
+
+
+            // =================================================
+            // CONSTRUIR TAREA
+            // =================================================
+
+            article.appendChild(
+              titulo
+            );
+
+
+            article.appendChild(
+              descripcion
+            );
+
+
+            article.appendChild(
+              prioridad
+            );
+
+
+            article.appendChild(
+              fechaLimite
+            );
+
+
+            article.appendChild(
+              estadoContainer
+            );
+
+
+            container.appendChild(
+              article
+            );
+          }
+        );
+
+      } catch (error) {
+
+        console.error(
+          "Error cargando tareas:",
+          error
+        );
+
+
+        container.innerHTML = "";
+
+
+        message.textContent =
+          "No se ha podido conectar con el servidor.";
+      }
+    }
+
+
+    // =====================================================
+    // ACTUALIZAR ESTADO
+    // =====================================================
+
+    async function actualizarEstado(
+      tareaId,
+      nuevoEstado,
+      boton
+    ) {
+
+      boton.disabled =
+        true;
+
+
+      boton.textContent =
+        "Guardando...";
+
+
+      try {
+
+        const respuesta =
+          await fetch(
+            `${API_URL}/api/tareas/${tareaId}`,
+            {
+              method: "PATCH",
+
+              headers: {
+                "Authorization":
+                  `Bearer ${token}`,
+
+                "Content-Type":
+                  "application/json"
+              },
+
+              body: JSON.stringify({
+                estado: nuevoEstado
+              })
+            }
+          );
+
+
+        const datos =
+          await respuesta.json();
+
+
+        if (
+          !respuesta.ok ||
+          !datos.ok
+        ) {
+
+          alert(
+            datos.message ||
+            "No se ha podido actualizar el estado."
+          );
+
+
+          boton.disabled =
+            false;
+
+
+          boton.textContent =
+            "Actualizar estado";
+
+
+          return;
+        }
+
+
+        boton.textContent =
+          "Estado actualizado";
+
+
+        setTimeout(
+          () => {
+
+            boton.disabled =
+              false;
+
+            boton.textContent =
+              "Actualizar estado";
+
+          },
+          1500
+        );
+
+      } catch (error) {
+
+        console.error(
+          "Error actualizando estado:",
+          error
+        );
+
+
+        alert(
+          "No se ha podido conectar con el servidor."
+        );
+
+
+        boton.disabled =
+          false;
+
+
+        boton.textContent =
+          "Actualizar estado";
+      }
+    }
+
+
+    // =====================================================
+    // RECARGAR
+    // =====================================================
+
+    document
+      .getElementById(
+        "recargarTareas"
+      )
+      .addEventListener(
+        "click",
+        cargarTareas
+      );
+
+
+    // =====================================================
+    // FORMATEAR FECHA
+    // =====================================================
+
+    function formatearFecha(
+      fecha
+    ) {
+
+      if (!fecha) {
+        return "-";
+      }
+
+
+      const fechaObjeto =
+        new Date(fecha);
+
+
+      return fechaObjeto.toLocaleString(
+        "es-ES",
+        {
+          dateStyle: "short",
+          timeStyle: "short"
+        }
+      );
+    }
+
+
+    // =====================================================
+    // FORMATEAR ESTADO
+    // =====================================================
+
+    function formatearEstado(
+      estado
+    ) {
+
+      const estados = {
+        PENDIENTE: "Pendiente",
+        EN_PROCESO: "En proceso",
+        COMPLETADA: "Completada",
+        CANCELADA: "Cancelada"
+      };
+
+
+      return estados[estado] ||
+        estado;
+    }
+
+
+    // =====================================================
+    // INICIO
+    // =====================================================
+
+    cargarTareas();
+
+  </script>
+
+</body>
+</html>
+
