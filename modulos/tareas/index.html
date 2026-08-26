@@ -1,30 +1,101 @@
-
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>Tareas - Portal del Cliente</title>
+
+  <link
+    rel="stylesheet"
+    href="../../css/estilos.css"
+  >
+
 </head>
+
 
 <body>
 
-  <header>
 
-    <div>
-      <h1>Tareas</h1>
-      <p id="nombreUsuario">Cargando...</p>
+  <!-- =====================================================
+       CABECERA
+       ===================================================== -->
+
+  <header class="portal-header">
+
+    <div class="portal-header-left">
+
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          gap: 14px;
+        "
+      >
+
+        <div
+          style="
+            width: 46px;
+            height: 46px;
+            border-radius: 12px;
+            background: #eef2ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+          "
+        >
+          ✅
+        </div>
+
+        <div>
+
+          <h1
+            style="
+              margin: 0;
+            "
+          >
+            Tareas
+          </h1>
+
+          <p
+            id="nombreUsuario"
+            style="
+              margin: 4px 0 0;
+            "
+          >
+            Cargando...
+          </p>
+
+        </div>
+
+      </div>
+
     </div>
 
-    <div>
 
-      <a href="../../index.html">
+    <div class="portal-header-right">
+
+      <a
+        href="../../index.html"
+        class="btn btn-secondary"
+        style="
+          text-decoration: none;
+        "
+      >
         ← Volver al portal
       </a>
 
+
       <button
         id="cerrarSesion"
+        class="btn btn-danger"
         type="button"
       >
         Cerrar sesión
@@ -35,29 +106,132 @@
   </header>
 
 
-  <main>
 
-    <section>
+  <!-- =====================================================
+       CONTENIDO PRINCIPAL
+       ===================================================== -->
 
-      <h2>Mis tareas</h2>
+  <main class="portal-container">
 
-      <button
-        id="recargarTareas"
-        type="button"
+
+    <!-- ===================================================
+         CABECERA DEL MÓDULO
+         =================================================== -->
+
+    <section class="welcome-section">
+
+      <h2>
+        Mis tareas
+      </h2>
+
+      <p>
+        Consulta las tareas asignadas y actualiza su estado
+        cuando hayas avanzado en ellas.
+      </p>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         LISTADO DE TAREAS
+         =================================================== -->
+
+    <section
+      style="
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 30px;
+      "
+    >
+
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 20px;
+          margin-bottom: 25px;
+          flex-wrap: wrap;
+        "
       >
-        Recargar tareas
-      </button>
 
-      <p id="listadoMessage"></p>
+        <div>
 
-      <div id="tareasContainer">
+          <h2
+            style="
+              margin: 0 0 6px;
+              color: #111827;
+            "
+          >
+            Tareas asignadas
+          </h2>
+
+          <p
+            style="
+              margin: 0;
+              color: #6b7280;
+              font-size: 14px;
+            "
+          >
+            Aquí puedes consultar tus tareas y modificar
+            únicamente su estado.
+          </p>
+
+        </div>
+
+
+        <button
+          id="recargarTareas"
+          class="btn btn-secondary"
+          type="button"
+        >
+          ↻ Recargar tareas
+        </button>
+
+      </div>
+
+
+      <p
+        id="listadoMessage"
+        class="message"
+      ></p>
+
+
+      <div
+        id="tareasContainer"
+        style="
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+        "
+      >
         Cargando tareas...
       </div>
 
     </section>
 
+
   </main>
 
+
+
+  <!-- =====================================================
+       PIE
+       ===================================================== -->
+
+  <footer class="portal-footer">
+
+    Portal del Cliente · Kit Gestión Asesoría
+
+  </footer>
+
+
+
+  <!-- =====================================================
+       JAVASCRIPT
+       ===================================================== -->
 
   <script>
 
@@ -75,6 +249,7 @@
 
     const token =
       localStorage.getItem("token");
+
 
     const usuarioGuardado =
       localStorage.getItem("usuario");
@@ -201,8 +376,49 @@
           datos.tareas.length === 0
         ) {
 
-          container.innerHTML =
-            "<p>No tienes tareas disponibles.</p>";
+          container.innerHTML = `
+
+            <div
+              style="
+                text-align: center;
+                padding: 40px 20px;
+                border: 1px dashed #d1d5db;
+                border-radius: 10px;
+                background: #f9fafb;
+              "
+            >
+
+              <div
+                style="
+                  font-size: 36px;
+                  margin-bottom: 12px;
+                "
+              >
+                ✅
+              </div>
+
+              <h3
+                style="
+                  margin: 0 0 8px;
+                  color: #111827;
+                "
+              >
+                No tienes tareas pendientes
+              </h3>
+
+              <p
+                style="
+                  margin: 0;
+                  color: #6b7280;
+                "
+              >
+                Cuando tu asesoría te asigne una tarea,
+                aparecerá aquí.
+              </p>
+
+            </div>
+
+          `;
 
           return;
         }
@@ -220,9 +436,34 @@
               );
 
 
+            article.style.cssText = `
+              border: 1px solid #e5e7eb;
+              border-radius: 12px;
+              padding: 22px;
+              background: #ffffff;
+              box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            `;
+
+
             // =================================================
-            // TÍTULO
+            // CABECERA DE LA TAREA
             // =================================================
+
+            const cabecera =
+              document.createElement(
+                "div"
+              );
+
+
+            cabecera.style.cssText = `
+              display: flex;
+              justify-content: space-between;
+              align-items: flex-start;
+              gap: 15px;
+              margin-bottom: 16px;
+              flex-wrap: wrap;
+            `;
+
 
             const titulo =
               document.createElement(
@@ -232,6 +473,18 @@
 
             titulo.textContent =
               tarea.titulo;
+
+
+            titulo.style.cssText = `
+              margin: 0;
+              color: #111827;
+              font-size: 18px;
+            `;
+
+
+            cabecera.appendChild(
+              titulo
+            );
 
 
             // =================================================
@@ -249,43 +502,134 @@
               "Sin descripción";
 
 
+            descripcion.style.cssText = `
+              margin: 0 0 18px;
+              color: #6b7280;
+              line-height: 1.6;
+            `;
+
+
             // =================================================
-            // PRIORIDAD
+            // INFORMACIÓN
             // =================================================
+
+            const informacion =
+              document.createElement(
+                "div"
+              );
+
+
+            informacion.style.cssText = `
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+              gap: 12px;
+              margin-bottom: 20px;
+            `;
+
 
             const prioridad =
               document.createElement(
-                "p"
+                "div"
               );
 
 
-            prioridad.textContent =
-              `Prioridad: ${
-                tarea.prioridad || "-"
-              }`;
+            prioridad.style.cssText = `
+              padding: 12px 14px;
+              background: #f9fafb;
+              border-radius: 8px;
+              border: 1px solid #f0f0f0;
+            `;
 
 
-            // =================================================
-            // FECHA LÍMITE
-            // =================================================
+            prioridad.innerHTML = `
+              <div
+                style="
+                  font-size: 12px;
+                  font-weight: 600;
+                  color: #6b7280;
+                  margin-bottom: 4px;
+                "
+              >
+                PRIORIDAD
+              </div>
+
+              <div
+                style="
+                  color: #111827;
+                  font-weight: 500;
+                "
+              >
+                ${tarea.prioridad || "-"}
+              </div>
+            `;
+
 
             const fechaLimite =
               document.createElement(
-                "p"
+                "div"
               );
 
 
-            fechaLimite.textContent =
-              `Fecha límite: ${
-                formatearFecha(
-                  tarea.fechaLimite
-                )
-              }`;
+            fechaLimite.style.cssText = `
+              padding: 12px 14px;
+              background: #f9fafb;
+              border-radius: 8px;
+              border: 1px solid #f0f0f0;
+            `;
+
+
+            fechaLimite.innerHTML = `
+              <div
+                style="
+                  font-size: 12px;
+                  font-weight: 600;
+                  color: #6b7280;
+                  margin-bottom: 4px;
+                "
+              >
+                FECHA LÍMITE
+              </div>
+
+              <div
+                style="
+                  color: #111827;
+                  font-weight: 500;
+                "
+              >
+                ${formatearFecha(tarea.fechaLimite)}
+              </div>
+            `;
+
+
+            informacion.appendChild(
+              prioridad
+            );
+
+
+            informacion.appendChild(
+              fechaLimite
+            );
 
 
             // =================================================
             // ESTADO
             // =================================================
+
+            const estadoContainer =
+              document.createElement(
+                "div"
+              );
+
+
+            estadoContainer.style.cssText = `
+              border-top: 1px solid #e5e7eb;
+              padding-top: 18px;
+              display: flex;
+              align-items: center;
+              gap: 12px;
+              flex-wrap: wrap;
+            `;
+
 
             const estadoLabel =
               document.createElement(
@@ -294,13 +638,32 @@
 
 
             estadoLabel.textContent =
-              "Estado: ";
+              "Estado";
+
+
+            estadoLabel.style.cssText = `
+              font-size: 14px;
+              font-weight: 600;
+              color: #374151;
+            `;
 
 
             const estadoSelect =
               document.createElement(
                 "select"
               );
+
+
+            estadoSelect.style.cssText = `
+              padding: 10px 12px;
+              border: 1px solid #d1d5db;
+              border-radius: 8px;
+              background: #ffffff;
+              color: #374151;
+              font-size: 14px;
+              min-width: 150px;
+              outline: none;
+            `;
 
 
             const estadosPermitidos = [
@@ -364,6 +727,10 @@
               "Actualizar estado";
 
 
+            actualizar.className =
+              "btn btn-primary";
+
+
             actualizar.addEventListener(
               "click",
               () =>
@@ -373,16 +740,6 @@
                   actualizar
                 )
             );
-
-
-            // =================================================
-            // CONTENEDOR DE ESTADO
-            // =================================================
-
-            const estadoContainer =
-              document.createElement(
-                "div"
-              );
 
 
             estadoContainer.appendChild(
@@ -405,7 +762,7 @@
             // =================================================
 
             article.appendChild(
-              titulo
+              cabecera
             );
 
 
@@ -415,12 +772,7 @@
 
 
             article.appendChild(
-              prioridad
-            );
-
-
-            article.appendChild(
-              fechaLimite
+              informacion
             );
 
 
@@ -432,6 +784,7 @@
             container.appendChild(
               article
             );
+
           }
         );
 
@@ -630,6 +983,7 @@
 
   </script>
 
-</body>
-</html>
 
+</body>
+
+</html>
