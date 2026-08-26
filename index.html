@@ -1,122 +1,376 @@
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>Portal del Cliente</title>
+
+  <link
+    rel="stylesheet"
+    href="css/estilos.css"
+  >
+
 </head>
+
 
 <body>
 
-  <header>
-    <div>
-      <h1>Portal del Cliente</h1>
-      <p id="nombreUsuario">Cargando...</p>
+
+  <!-- =====================================================
+       CABECERA
+       ===================================================== -->
+
+  <header class="portal-header">
+
+    <div class="portal-header-left">
+
+      <h1>
+        Portal del Cliente
+      </h1>
+
+      <p id="usuarioCabecera">
+        Cargando...
+      </p>
+
     </div>
 
-    <button id="cerrarSesion" type="button">
-      Cerrar sesión
-    </button>
+
+    <div class="portal-header-right">
+
+      <button
+        id="cerrarSesion"
+        class="btn btn-danger"
+        type="button"
+      >
+        Cerrar sesión
+      </button>
+
+    </div>
+
   </header>
 
 
-  <main>
 
-    <section>
-      <h2>Bienvenido</h2>
+  <!-- =====================================================
+       CONTENIDO PRINCIPAL
+       ===================================================== -->
+
+  <main class="portal-container">
+
+
+    <!-- ===================================================
+         BIENVENIDA
+         =================================================== -->
+
+    <section class="welcome-section">
+
+      <h2 id="bienvenida">
+        Bienvenido
+      </h2>
+
       <p>
-        Desde este portal puedes consultar y gestionar la información
-        disponible para tu cuenta.
+        Desde aquí puedes gestionar toda la información
+        relacionada con tu asesoría.
       </p>
+
     </section>
 
 
+
+    <!-- ===================================================
+         MÓDULOS
+         =================================================== -->
+
     <section>
-      <h2>Mis módulos</h2>
 
-      <div>
-
-        <article>
-          <h3>Documentos</h3>
-          <p>
-            Consulta y gestiona tus documentos.
-          </p>
-          <a href="modulos/documentos/index.html">
-            Acceder a documentos
-          </a>
-        </article>
+      <div class="modules-grid">
 
 
-        <article>
-          <h3>Tareas</h3>
-          <p>
-            Consulta tus tareas y actualiza su estado.
-          </p>
-          <a href="modulos/tareas/index.html">
-            Acceder a tareas
-          </a>
-        </article>
+        <!-- DOCUMENTOS -->
+
+        <a
+          href="modulos/documentos/index.html"
+          class="module-card"
+        >
+
+          <div>
+
+            <div class="module-icon">
+              📄
+            </div>
+
+            <h3>
+              Documentos
+            </h3>
+
+            <p>
+              Consulta, sube y descarga tus documentos.
+            </p>
+
+          </div>
+
+        </a>
 
 
-        <article>
-          <h3>Avisos</h3>
-          <p>
-            Consulta los avisos dirigidos a ti.
-          </p>
-          <a href="modulos/avisos/index.html">
-            Acceder a avisos
-          </a>
-        </article>
+
+        <!-- TAREAS -->
+
+        <a
+          href="modulos/tareas/index.html"
+          class="module-card"
+        >
+
+          <div>
+
+            <div class="module-icon">
+              ✅
+            </div>
+
+            <h3>
+              Tareas
+            </h3>
+
+            <p>
+              Consulta tus tareas y actualiza su estado.
+            </p>
+
+          </div>
+
+        </a>
 
 
-        <article>
-          <h3>Calendario</h3>
-          <p>
-            Consulta los eventos de tu calendario.
-          </p>
-          <a href="modulos/calendario/index.html">
-            Acceder al calendario
-          </a>
-        </article>
+
+        <!-- AVISOS -->
+
+        <a
+          href="modulos/avisos/index.html"
+          class="module-card"
+        >
+
+          <div>
+
+            <div class="module-icon">
+              🔔
+            </div>
+
+            <h3>
+              Avisos
+            </h3>
+
+            <p>
+              Consulta las comunicaciones de tu asesoría.
+            </p>
+
+          </div>
+
+        </a>
+
+
+
+        <!-- CALENDARIO -->
+
+        <a
+          href="modulos/calendario/index.html"
+          class="module-card"
+        >
+
+          <div>
+
+            <div class="module-icon">
+              📅
+            </div>
+
+            <h3>
+              Calendario
+            </h3>
+
+            <p>
+              Consulta tus citas y próximos eventos.
+            </p>
+
+          </div>
+
+        </a>
+
 
       </div>
+
     </section>
+
+
+
+    <!-- ===================================================
+         RESUMEN
+         =================================================== -->
+
+    <section class="dashboard-section">
+
+      <h2>
+        Resumen
+      </h2>
+
+
+      <div class="stats-grid">
+
+
+        <!-- DOCUMENTOS -->
+
+        <div class="stat-card">
+
+          <div class="stat-card-title">
+            Documentos
+          </div>
+
+          <div
+            id="contadorDocumentos"
+            class="stat-card-value"
+          >
+            -
+          </div>
+
+        </div>
+
+
+
+        <!-- TAREAS -->
+
+        <div class="stat-card">
+
+          <div class="stat-card-title">
+            Tareas
+          </div>
+
+          <div
+            id="contadorTareas"
+            class="stat-card-value"
+          >
+            -
+          </div>
+
+        </div>
+
+
+
+        <!-- AVISOS -->
+
+        <div class="stat-card">
+
+          <div class="stat-card-title">
+            Avisos no leídos
+          </div>
+
+          <div
+            id="contadorAvisos"
+            class="stat-card-value"
+          >
+            -
+          </div>
+
+        </div>
+
+
+
+        <!-- EVENTOS -->
+
+        <div class="stat-card">
+
+          <div class="stat-card-title">
+            Próximos eventos
+          </div>
+
+          <div
+            id="contadorEventos"
+            class="stat-card-value"
+          >
+            -
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+      <p
+        id="dashboardMessage"
+        class="message"
+      ></p>
+
+    </section>
+
 
   </main>
 
 
+
+  <!-- =====================================================
+       PIE
+       ===================================================== -->
+
+  <footer class="portal-footer">
+
+    Portal del Cliente · Kit Gestión Asesoría
+
+  </footer>
+
+
+
+  <!-- =====================================================
+       JAVASCRIPT COMÚN
+       ===================================================== -->
+
+  <script src="js/comun.js"></script>
+
+
+  <!-- =====================================================
+       JAVASCRIPT DEL DASHBOARD
+       ===================================================== -->
+
   <script>
+
     // =====================================================
     // COMPROBAR SESIÓN
     // =====================================================
 
-    const token = localStorage.getItem("token");
-    const usuarioGuardado = localStorage.getItem("usuario");
+    if (!comprobarSesion()) {
 
-    if (!token || !usuarioGuardado) {
-      window.location.href = "login.html";
+      throw new Error(
+        "Sesión no válida"
+      );
+
     }
+
+
+    const usuario =
+      obtenerUsuario();
 
 
     // =====================================================
     // MOSTRAR USUARIO
     // =====================================================
 
-    try {
-      const usuario = JSON.parse(usuarioGuardado);
+    document
+      .getElementById(
+        "usuarioCabecera"
+      )
+      .textContent =
+        usuario.nombre;
 
-      document.getElementById("nombreUsuario").textContent =
-        `Hola, ${usuario.nombre}`;
-    } catch (error) {
-      console.error("Error leyendo los datos del usuario:", error);
 
-      localStorage.removeItem("token");
-      localStorage.removeItem("usuario");
-
-      window.location.href = "login.html";
-    }
+    document
+      .getElementById(
+        "bienvenida"
+      )
+      .textContent =
+        `Bienvenido, ${usuario.nombre}`;
 
 
     // =====================================================
@@ -124,16 +378,237 @@
     // =====================================================
 
     document
-      .getElementById("cerrarSesion")
-      .addEventListener("click", () => {
+      .getElementById(
+        "cerrarSesion"
+      )
+      .addEventListener(
+        "click",
+        cerrarSesion
+      );
 
-        localStorage.removeItem("token");
-        localStorage.removeItem("usuario");
 
-        window.location.href = "login.html";
-      });
+    // =====================================================
+    // CARGAR RESUMEN
+    // =====================================================
+
+    async function cargarResumen() {
+
+      const mensaje =
+        document.getElementById(
+          "dashboardMessage"
+        );
+
+
+      try {
+
+        const resultados =
+          await Promise.all([
+            peticionAPI(
+              "/api/documentos"
+            ),
+            peticionAPI(
+              "/api/tareas"
+            ),
+            peticionAPI(
+              "/api/cliente/avisos"
+            ),
+            peticionAPI(
+              "/api/eventos-calendario"
+            )
+          ]);
+
+
+        const datos =
+          await Promise.all(
+            resultados.map(
+              respuesta =>
+                respuesta.json()
+            )
+          );
+
+
+        // =================================================
+        // DOCUMENTOS
+        // =================================================
+
+        if (
+          resultados[0].ok &&
+          datos[0].ok &&
+          Array.isArray(
+            datos[0].documentos
+          )
+        ) {
+
+          document
+            .getElementById(
+              "contadorDocumentos"
+            )
+            .textContent =
+              datos[0].documentos.length;
+
+        } else {
+
+          document
+            .getElementById(
+              "contadorDocumentos"
+            )
+            .textContent =
+              "-";
+        }
+
+
+        // =================================================
+        // TAREAS
+        // =================================================
+
+        if (
+          resultados[1].ok &&
+          datos[1].ok &&
+          Array.isArray(
+            datos[1].tareas
+          )
+        ) {
+
+          document
+            .getElementById(
+              "contadorTareas"
+            )
+            .textContent =
+              datos[1].tareas.length;
+
+        } else {
+
+          document
+            .getElementById(
+              "contadorTareas"
+            )
+            .textContent =
+              "-";
+        }
+
+
+        // =================================================
+        // AVISOS
+        // =================================================
+
+        if (
+          resultados[2].ok &&
+          datos[2].ok &&
+          Array.isArray(
+            datos[2].avisos
+          )
+        ) {
+
+          const avisosNoLeidos =
+            datos[2].avisos.filter(
+              aviso =>
+                aviso.leido === false
+            );
+
+
+          document
+            .getElementById(
+              "contadorAvisos"
+            )
+            .textContent =
+              avisosNoLeidos.length;
+
+        } else {
+
+          document
+            .getElementById(
+              "contadorAvisos"
+            )
+            .textContent =
+              "-";
+        }
+
+
+        // =================================================
+        // EVENTOS
+        // =================================================
+
+        if (
+          resultados[3].ok &&
+          datos[3].ok &&
+          Array.isArray(
+            datos[3].eventos
+          )
+        ) {
+
+          const ahora =
+            new Date();
+
+
+          const proximosEventos =
+            datos[3].eventos.filter(
+              evento => {
+
+                if (!evento.fechaInicio) {
+                  return false;
+                }
+
+
+                const fechaInicio =
+                  new Date(
+                    evento.fechaInicio
+                  );
+
+
+                return (
+                  !Number.isNaN(
+                    fechaInicio.getTime()
+                  ) &&
+                  fechaInicio >= ahora
+                );
+              }
+            );
+
+
+          document
+            .getElementById(
+              "contadorEventos"
+            )
+            .textContent =
+              proximosEventos.length;
+
+        } else {
+
+          document
+            .getElementById(
+              "contadorEventos"
+            )
+            .textContent =
+              "-";
+        }
+
+
+      } catch (error) {
+
+        console.error(
+          "Error cargando resumen:",
+          error
+        );
+
+
+        mensaje.textContent =
+          "No se ha podido cargar el resumen del portal.";
+      }
+    }
+
+
+    // =====================================================
+    // INICIO
+    // =====================================================
+
+    cargarResumen();
+
   </script>
 
+
 </body>
+
 </html>
+
+
 
