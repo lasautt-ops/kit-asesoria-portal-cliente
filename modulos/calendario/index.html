@@ -1,0 +1,578 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Calendario - Portal del Cliente</title>
+</head>
+
+<body>
+
+  <header>
+
+    <div>
+      <h1>Calendario</h1>
+      <p id="nombreUsuario">Cargando...</p>
+    </div>
+
+    <div>
+
+      <a href="../../index.html">
+        ← Volver al portal
+      </a>
+
+      <button
+        id="cerrarSesion"
+        type="button"
+      >
+        Cerrar sesión
+      </button>
+
+    </div>
+
+  </header>
+
+
+  <main>
+
+    <section>
+
+      <h2>Mis eventos</h2>
+
+      <button
+        id="recargarEventos"
+        type="button"
+      >
+        Recargar calendario
+      </button>
+
+      <p id="eventosMessage"></p>
+
+      <div id="eventosContainer">
+        Cargando eventos...
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <script>
+
+    // =====================================================
+    // CONFIGURACIÓN
+    // =====================================================
+
+    const API_URL =
+      "https://kit-asesoria-backend.vhtza8.easypanel.host";
+
+
+    // =====================================================
+    // SESIÓN
+    // =====================================================
+
+    const token =
+      localStorage.getItem("token");
+
+    const usuarioGuardado =
+      localStorage.getItem("usuario");
+
+
+    if (!token || !usuarioGuardado) {
+
+      window.location.href =
+        "../../login.html";
+    }
+
+
+    let usuario;
+
+
+    try {
+
+      usuario =
+        JSON.parse(usuarioGuardado);
+
+
+      document
+        .getElementById("nombreUsuario")
+        .textContent =
+          `Hola, ${usuario.nombre}`;
+
+    } catch (error) {
+
+      console.error(
+        "Error leyendo los datos del usuario:",
+        error
+      );
+
+
+      localStorage.removeItem("token");
+      localStorage.removeItem("usuario");
+
+
+      window.location.href =
+        "../../login.html";
+    }
+
+
+    // =====================================================
+    // CERRAR SESIÓN
+    // =====================================================
+
+    document
+      .getElementById("cerrarSesion")
+      .addEventListener(
+        "click",
+        () => {
+
+          localStorage.removeItem("token");
+          localStorage.removeItem("usuario");
+
+          window.location.href =
+            "../../login.html";
+        }
+      );
+
+
+    // =====================================================
+    // CARGAR EVENTOS
+    // =====================================================
+
+    async function cargarEventos() {
+
+      const container =
+        document.getElementById(
+          "eventosContainer"
+        );
+
+
+      const message =
+        document.getElementById(
+          "eventosMessage"
+        );
+
+
+      container.innerHTML =
+        "Cargando eventos...";
+
+      message.textContent = "";
+
+
+      try {
+
+        const respuesta =
+          await fetch(
+            `${API_URL}/api/eventos-calendario`,
+            {
+              method: "GET",
+
+              headers: {
+                "Authorization":
+                  `Bearer ${token}`
+              }
+            }
+          );
+
+
+        const datos =
+          await respuesta.json();
+
+
+        if (
+          !respuesta.ok ||
+          !datos.ok
+        ) {
+
+          container.innerHTML = "";
+
+          message.textContent =
+            datos.message ||
+            "No se han podido cargar los eventos.";
+
+          return;
+        }
+
+
+        if (
+          !Array.isArray(datos.eventos) ||
+          datos.eventos.length === 0
+        ) {
+
+          container.innerHTML =
+            "<p>No tienes eventos en el calendario.</p>";
+
+          return;
+        }
+
+
+        container.innerHTML = "";
+
+
+        datos.eventos.forEach(
+          (evento) => {
+
+            const article =
+              document.createElement(
+                "article"
+              );
+
+
+            // =================================================
+            // TÍTULO
+            // =================================================
+
+            const titulo =
+              document.createElement(
+                "h3"
+              );
+
+
+            titulo.textContent =
+              evento.titulo;
+
+
+            // =================================================
+            // TIPO
+            // =================================================
+
+            const tipo =
+              document.createElement(
+                "p"
+              );
+
+
+            tipo.textContent =
+              `Tipo: ${
+                evento.tipo || "-"
+              }`;
+
+
+            // =================================================
+            // FECHA
+            // =================================================
+
+            const fecha =
+              document.createElement(
+                "p"
+              );
+
+
+            if (evento.todoElDia) {
+
+              fecha.textContent =
+                `Fecha: ${
+                  formatearFecha(
+                    evento.fechaInicio
+                  )
+                } — Todo el día`;
+
+            } else {
+
+              fecha.textContent =
+                `Inicio: ${
+                  formatearFechaHora(
+                    evento.fechaInicio
+                  )
+                }`;
+
+            }
+
+
+            // =================================================
+            // FECHA FIN
+            // =================================================
+
+            const fechaFin =
+              document.createElement(
+                "p"
+              );
+
+
+            if (!evento.todoElDia) {
+
+              fechaFin.textContent =
+                `Fin: ${
+                  formatearFechaHora(
+                    evento.fechaFin
+                  )
+                }`;
+
+            } else {
+
+              fechaFin.textContent = "";
+            }
+
+
+            // =================================================
+            // DESCRIPCIÓN
+            // =================================================
+
+            const descripcion =
+              document.createElement(
+                "p"
+              );
+
+
+            descripcion.textContent =
+              evento.descripcion ||
+              "Sin descripción";
+
+
+            // =================================================
+            // UBICACIÓN
+            // =================================================
+
+            const ubicacion =
+              document.createElement(
+                "p"
+              );
+
+
+            ubicacion.textContent =
+              `Ubicación: ${
+                evento.ubicacion || "-"
+              }`;
+
+
+            // =================================================
+            // ESTADO
+            // =================================================
+
+            const estado =
+              document.createElement(
+                "p"
+              );
+
+
+            estado.textContent =
+              `Estado: ${
+                evento.estado || "-"
+              }`;
+
+
+            // =================================================
+            // EMPRESA
+            // =================================================
+
+            const empresa =
+              document.createElement(
+                "p"
+              );
+
+
+            empresa.textContent =
+              `Empresa: ${
+                evento.empresa?.nombre ||
+                "-"
+              }`;
+
+
+            // =================================================
+            // OFICINA
+            // =================================================
+
+            const oficina =
+              document.createElement(
+                "p"
+              );
+
+
+            oficina.textContent =
+              `Oficina: ${
+                evento.oficina?.nombre ||
+                "-"
+              }`;
+
+
+            // =================================================
+            // CREACIÓN
+            // =================================================
+
+            const creado =
+              document.createElement(
+                "p"
+              );
+
+
+            creado.textContent =
+              `Creado por: ${
+                evento.creadoPorUsuario?.nombre ||
+                "-"
+              }`;
+
+
+            // =================================================
+            // CONSTRUIR EVENTO
+            // =================================================
+
+            article.appendChild(
+              titulo
+            );
+
+
+            article.appendChild(
+              tipo
+            );
+
+
+            article.appendChild(
+              fecha
+            );
+
+
+            article.appendChild(
+              fechaFin
+            );
+
+
+            article.appendChild(
+              descripcion
+            );
+
+
+            article.appendChild(
+              ubicacion
+            );
+
+
+            article.appendChild(
+              estado
+            );
+
+
+            article.appendChild(
+              empresa
+            );
+
+
+            article.appendChild(
+              oficina
+            );
+
+
+            article.appendChild(
+              creado
+            );
+
+
+            container.appendChild(
+              article
+            );
+          }
+        );
+
+      } catch (error) {
+
+        console.error(
+          "Error cargando eventos:",
+          error
+        );
+
+
+        container.innerHTML = "";
+
+
+        message.textContent =
+          "No se ha podido conectar con el servidor.";
+      }
+    }
+
+
+    // =====================================================
+    // RECARGAR
+    // =====================================================
+
+    document
+      .getElementById(
+        "recargarEventos"
+      )
+      .addEventListener(
+        "click",
+        cargarEventos
+      );
+
+
+    // =====================================================
+    // FORMATEAR FECHA
+    // =====================================================
+
+    function formatearFecha(
+      fecha
+    ) {
+
+      if (!fecha) {
+        return "-";
+      }
+
+
+      const fechaObjeto =
+        new Date(fecha);
+
+
+      if (
+        Number.isNaN(
+          fechaObjeto.getTime()
+        )
+      ) {
+
+        return "-";
+      }
+
+
+      return fechaObjeto.toLocaleDateString(
+        "es-ES"
+      );
+    }
+
+
+    // =====================================================
+    // FORMATEAR FECHA Y HORA
+    // =====================================================
+
+    function formatearFechaHora(
+      fecha
+    ) {
+
+      if (!fecha) {
+        return "-";
+      }
+
+
+      const fechaObjeto =
+        new Date(fecha);
+
+
+      if (
+        Number.isNaN(
+          fechaObjeto.getTime()
+        )
+      ) {
+
+        return "-";
+      }
+
+
+      return fechaObjeto.toLocaleString(
+        "es-ES",
+        {
+          dateStyle: "short",
+          timeStyle: "short"
+        }
+      );
+    }
+
+
+    // =====================================================
+    // INICIO
+    // =====================================================
+
+    cargarEventos();
+
+  </script>
+
+</body>
+</html>
+
