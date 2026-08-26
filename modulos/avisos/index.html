@@ -1,0 +1,618 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Avisos - Portal del Cliente</title>
+</head>
+
+<body>
+
+  <header>
+
+    <div>
+      <h1>Avisos</h1>
+      <p id="nombreUsuario">Cargando...</p>
+    </div>
+
+    <div>
+
+      <a href="../../index.html">
+        ← Volver al portal
+      </a>
+
+      <button
+        id="cerrarSesion"
+        type="button"
+      >
+        Cerrar sesión
+      </button>
+
+    </div>
+
+  </header>
+
+
+  <main>
+
+    <section>
+
+      <h2>Mis avisos</h2>
+
+      <button
+        id="recargarAvisos"
+        type="button"
+      >
+        Recargar avisos
+      </button>
+
+      <p id="listadoMessage"></p>
+
+      <div id="avisosContainer">
+        Cargando avisos...
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <script>
+
+    // =====================================================
+    // CONFIGURACIÓN
+    // =====================================================
+
+    const API_URL =
+      "https://kit-asesoria-backend.vhtza8.easypanel.host";
+
+
+    // =====================================================
+    // SESIÓN
+    // =====================================================
+
+    const token =
+      localStorage.getItem("token");
+
+    const usuarioGuardado =
+      localStorage.getItem("usuario");
+
+
+    if (!token || !usuarioGuardado) {
+
+      window.location.href =
+        "../../login.html";
+    }
+
+
+    let usuario;
+
+
+    try {
+
+      usuario =
+        JSON.parse(usuarioGuardado);
+
+
+      document
+        .getElementById("nombreUsuario")
+        .textContent =
+          `Hola, ${usuario.nombre}`;
+
+    } catch (error) {
+
+      console.error(
+        "Error leyendo los datos del usuario:",
+        error
+      );
+
+
+      localStorage.removeItem("token");
+      localStorage.removeItem("usuario");
+
+
+      window.location.href =
+        "../../login.html";
+    }
+
+
+    // =====================================================
+    // CERRAR SESIÓN
+    // =====================================================
+
+    document
+      .getElementById("cerrarSesion")
+      .addEventListener(
+        "click",
+        () => {
+
+          localStorage.removeItem("token");
+          localStorage.removeItem("usuario");
+
+          window.location.href =
+            "../../login.html";
+        }
+      );
+
+
+    // =====================================================
+    // CARGAR AVISOS
+    // =====================================================
+
+    async function cargarAvisos() {
+
+      const container =
+        document.getElementById(
+          "avisosContainer"
+        );
+
+
+      const message =
+        document.getElementById(
+          "listadoMessage"
+        );
+
+
+      container.innerHTML =
+        "Cargando avisos...";
+
+      message.textContent = "";
+
+
+      try {
+
+        const respuesta =
+          await fetch(
+            `${API_URL}/api/cliente/avisos`,
+            {
+              method: "GET",
+
+              headers: {
+                "Authorization":
+                  `Bearer ${token}`
+              }
+            }
+          );
+
+
+        const datos =
+          await respuesta.json();
+
+
+        if (
+          !respuesta.ok ||
+          !datos.ok
+        ) {
+
+          container.innerHTML = "";
+
+          message.textContent =
+            datos.message ||
+            "No se han podido cargar los avisos.";
+
+          return;
+        }
+
+
+        if (
+          !Array.isArray(datos.avisos) ||
+          datos.avisos.length === 0
+        ) {
+
+          container.innerHTML =
+            "<p>No tienes avisos disponibles.</p>";
+
+          return;
+        }
+
+
+        container.innerHTML = "";
+
+
+        datos.avisos.forEach(
+          (aviso) => {
+
+            const article =
+              document.createElement(
+                "article"
+              );
+
+
+            // =================================================
+            // INDICADOR LEÍDO / NO LEÍDO
+            // =================================================
+
+            const estadoLectura =
+              document.createElement(
+                "p"
+              );
+
+
+            estadoLectura.textContent =
+              aviso.leido
+                ? "✓ Leído"
+                : "● No leído";
+
+
+            // =================================================
+            // TÍTULO
+            // =================================================
+
+            const titulo =
+              document.createElement(
+                "h3"
+              );
+
+
+            titulo.textContent =
+              aviso.titulo;
+
+
+            // =================================================
+            // TIPO
+            // =================================================
+
+            const tipo =
+              document.createElement(
+                "p"
+              );
+
+
+            tipo.textContent =
+              `Tipo: ${
+                aviso.tipo || "-"
+              }`;
+
+
+            // =================================================
+            // PRIORIDAD
+            // =================================================
+
+            const prioridad =
+              document.createElement(
+                "p"
+              );
+
+
+            prioridad.textContent =
+              `Prioridad: ${
+                aviso.prioridad || "-"
+              }`;
+
+
+            // =================================================
+            // CONTENIDO
+            // =================================================
+
+            const contenido =
+              document.createElement(
+                "p"
+              );
+
+
+            contenido.textContent =
+              aviso.contenido ||
+              "Sin contenido";
+
+
+            // =================================================
+            // FECHA PUBLICACIÓN
+            // =================================================
+
+            const fechaPublicacion =
+              document.createElement(
+                "p"
+              );
+
+
+            fechaPublicacion.textContent =
+              `Publicado: ${
+                formatearFecha(
+                  aviso.fechaPublicacion ||
+                  aviso.createdAt
+                )
+              }`;
+
+
+            // =================================================
+            // FECHA CADUCIDAD
+            // =================================================
+
+            const fechaCaducidad =
+              document.createElement(
+                "p"
+              );
+
+
+            fechaCaducidad.textContent =
+              `Caducidad: ${
+                formatearFecha(
+                  aviso.fechaCaducidad
+                )
+              }`;
+
+
+            // =================================================
+            // CREADOR
+            // =================================================
+
+            const creador =
+              document.createElement(
+                "p"
+              );
+
+
+            creador.textContent =
+              `Publicado por: ${
+                aviso.creador?.nombre ||
+                "-"
+              }`;
+
+
+            // =================================================
+            // BOTÓN MARCAR COMO LEÍDO
+            // =================================================
+
+            const botonLeido =
+              document.createElement(
+                "button"
+              );
+
+
+            botonLeido.type =
+              "button";
+
+
+            if (aviso.leido) {
+
+              botonLeido.textContent =
+                "Aviso leído";
+
+              botonLeido.disabled =
+                true;
+
+            } else {
+
+              botonLeido.textContent =
+                "Marcar como leído";
+
+
+              botonLeido.addEventListener(
+                "click",
+                () =>
+                  marcarComoLeido(
+                    aviso.id,
+                    botonLeido,
+                    estadoLectura
+                  )
+              );
+            }
+
+
+            // =================================================
+            // CONSTRUIR AVISO
+            // =================================================
+
+            article.appendChild(
+              estadoLectura
+            );
+
+
+            article.appendChild(
+              titulo
+            );
+
+
+            article.appendChild(
+              contenido
+            );
+
+
+            article.appendChild(
+              tipo
+            );
+
+
+            article.appendChild(
+              prioridad
+            );
+
+
+            article.appendChild(
+              fechaPublicacion
+            );
+
+
+            article.appendChild(
+              fechaCaducidad
+            );
+
+
+            article.appendChild(
+              creador
+            );
+
+
+            article.appendChild(
+              botonLeido
+            );
+
+
+            container.appendChild(
+              article
+            );
+          }
+        );
+
+      } catch (error) {
+
+        console.error(
+          "Error cargando avisos:",
+          error
+        );
+
+
+        container.innerHTML = "";
+
+
+        message.textContent =
+          "No se ha podido conectar con el servidor.";
+      }
+    }
+
+
+    // =====================================================
+    // MARCAR AVISO COMO LEÍDO
+    // =====================================================
+
+    async function marcarComoLeido(
+      avisoId,
+      boton,
+      indicador
+    ) {
+
+      boton.disabled =
+        true;
+
+
+      boton.textContent =
+        "Guardando...";
+
+
+      try {
+
+        const respuesta =
+          await fetch(
+            `${API_URL}/api/cliente/avisos/${avisoId}/leido`,
+            {
+              method: "PATCH",
+
+              headers: {
+                "Authorization":
+                  `Bearer ${token}`
+              }
+            }
+          );
+
+
+        const datos =
+          await respuesta.json();
+
+
+        if (
+          !respuesta.ok ||
+          !datos.ok
+        ) {
+
+          alert(
+            datos.message ||
+            "No se ha podido marcar el aviso como leído."
+          );
+
+
+          boton.disabled =
+            false;
+
+
+          boton.textContent =
+            "Marcar como leído";
+
+
+          return;
+        }
+
+
+        indicador.textContent =
+          "✓ Leído";
+
+
+        boton.textContent =
+          "Aviso leído";
+
+      } catch (error) {
+
+        console.error(
+          "Error marcando aviso como leído:",
+          error
+        );
+
+
+        alert(
+          "No se ha podido conectar con el servidor."
+        );
+
+
+        boton.disabled =
+          false;
+
+
+        boton.textContent =
+          "Marcar como leído";
+      }
+    }
+
+
+    // =====================================================
+    // RECARGAR AVISOS
+    // =====================================================
+
+    document
+      .getElementById(
+        "recargarAvisos"
+      )
+      .addEventListener(
+        "click",
+        cargarAvisos
+      );
+
+
+    // =====================================================
+    // FORMATEAR FECHA
+    // =====================================================
+
+    function formatearFecha(
+      fecha
+    ) {
+
+      if (!fecha) {
+        return "-";
+      }
+
+
+      const fechaObjeto =
+        new Date(fecha);
+
+
+      if (
+        Number.isNaN(
+          fechaObjeto.getTime()
+        )
+      ) {
+
+        return "-";
+      }
+
+
+      return fechaObjeto.toLocaleString(
+        "es-ES",
+        {
+          dateStyle: "short",
+          timeStyle: "short"
+        }
+      );
+    }
+
+
+    // =====================================================
+    // INICIO
+    // =====================================================
+
+    cargarAvisos();
+
+  </script>
+
+</body>
+</html>
+
